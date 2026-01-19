@@ -23,11 +23,11 @@ const teamMembers: TeamMember[] = [
   {
     name: "Jayabrata Bhaduri",
     role: "Project Manager",
-    photoSrc: "/team/jayabrata.svg",
-    age: "Age to be added",
-    location: "Location to be added",
+    photoSrc: "/team/jayabrata.png",
+    age: "41 years old",
+    location: "New Delhi, India",
     majorSkills:
-      "Major skills to be added in short sentences.",
+      "Major skill is client communication and project coordination.",
     bio:
       "Jayabrata is an Indian project manager with deep client care and a wide partner network. He keeps goals clear and builds trust through calm updates.",
     strengths:
@@ -40,8 +40,8 @@ const teamMembers: TeamMember[] = [
     role: "Lead Developer",
     photoSrc: "/team/ren.png",
     age: "31 years old",
-    location: "Based in Tokyo, Japan",
-    majorSkills: "Major skill is blockchain.",
+    location: "Tokyo, Japan",
+    majorSkills: "Major skill is system architecture and technical planning.",
     bio:
       "Ren is a Japanese senior developer who leads architecture, meaning the structure of the system. He sets the technical plan and reviews quality before delivery.",
     strengths:
@@ -53,10 +53,10 @@ const teamMembers: TeamMember[] = [
     name: "Takahiro Sato",
     role: "Senior Developer",
     photoSrc: "/team/takahiro.svg",
-    age: "Age to be added",
-    location: "Location to be added",
+    age: "31 years old",
+    location: "Tokyo, Japan",
     majorSkills:
-      "Major skills to be added in short sentences.",
+      "Major skill is code quality and documentation.",
     bio:
       "Takahiro is a Japanese senior developer who focuses on careful implementation and clean handover. He owns his tasks and documents what he ships.",
     strengths:
@@ -68,10 +68,10 @@ const teamMembers: TeamMember[] = [
     name: "Kenji Nakamura",
     role: "Senior Developer",
     photoSrc: "/team/kenji.svg",
-    age: "Age to be added",
-    location: "Location to be added",
+    age: "31 years old",
+    location: "Tokyo, Japan",
     majorSkills:
-      "Major skills to be added in short sentences.",
+      "Major skill is problem solving and reliable delivery.",
     bio:
       "Kenji is a Japanese senior developer with a calm problem solving style. He takes ownership of his deliverables and keeps quality high.",
     strengths:
