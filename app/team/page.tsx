@@ -92,40 +92,43 @@ export default function TeamPage() {
       </Section>
 
       <Section title="Meet the team">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
           {teamMembers.map((member) => (
             <div
               key={member.name}
               className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card transition hover:shadow-soft dark:border-white/10 dark:bg-nightSoft"
             >
-              <div className="flex items-start gap-5">
-                <div className="relative h-20 w-20 overflow-hidden rounded-3xl border border-ink/10 bg-surface dark:border-white/10 dark:bg-night md:h-24 md:w-24">
+              <div className="flex flex-col items-center text-center">
+                <div className="relative h-48 w-48 overflow-hidden rounded-3xl border-2 border-ink/10 bg-surface shadow-md dark:border-white/10 dark:bg-night md:h-56 md:w-56 lg:h-64 lg:w-64">
                   <Image
                     src={member.photoSrc}
                     alt={`${member.name} portrait`}
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 192px, (max-width: 1024px) 224px, 256px"
                   />
                 </div>
-                <div className="min-w-0">
-                  <p className="text-sm uppercase tracking-[0.2em] text-ink/50 dark:text-white/50">
+                <div className="mt-6 w-full">
+                  <p className="text-xs uppercase tracking-[0.2em] text-ink/50 dark:text-white/50">
                     {member.role}
                   </p>
-                  <h3 className="mt-2 text-2xl font-semibold text-ink dark:text-white">
+                  <h3 className="mt-2 text-2xl font-semibold text-ink dark:text-white md:text-3xl">
                     {member.name}
                   </h3>
                 </div>
               </div>
-              <div className="mt-5 space-y-3 text-sm text-ink/65 dark:text-white/60">
-                <p>{member.age}.</p>
-                <p>{member.location}.</p>
-                <p>{member.majorSkills}</p>
+              <div className="mt-6 space-y-2.5 text-sm text-ink/65 dark:text-white/60">
+                <p className="font-medium">{member.age}</p>
+                <p>{member.location}</p>
+                <p className="pt-1 text-ink/75 dark:text-white/75">{member.majorSkills}</p>
               </div>
-              <p className="mt-4 text-ink/70 dark:text-white/70">{member.bio}</p>
-              <p className="mt-4 text-ink/70 dark:text-white/70">
-                {member.strengths}
-              </p>
-              <p className="mt-4 text-ink/70 dark:text-white/70">{member.value}</p>
+              <div className="mt-6 space-y-4 border-t border-ink/10 pt-6 text-sm leading-relaxed dark:border-white/10">
+                <p className="text-ink/70 dark:text-white/70">{member.bio}</p>
+                <p className="text-ink/70 dark:text-white/70">
+                  {member.strengths}
+                </p>
+                <p className="text-ink/70 dark:text-white/70">{member.value}</p>
+              </div>
             </div>
           ))}
         </div>
