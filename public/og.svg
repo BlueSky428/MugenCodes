@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f6f7f5"/>
+  <circle cx="180" cy="140" r="60" fill="#e3f1ef"/>
+  <circle cx="1040" cy="500" r="80" fill="#e3f1ef"/>
+  <rect x="140" y="210" width="920" height="250" rx="36" fill="#ffffff" stroke="#1f6f6b" stroke-width="2"/>
+  <text x="600" y="330" font-family="Arial, sans-serif" font-size="48" text-anchor="middle" fill="#0f1c1a">
+    Calm delivery for important software
+  </text>
+  <text x="600" y="390" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#36514d">
+    Senior engineers with clear communication
+  </text>
+</svg>

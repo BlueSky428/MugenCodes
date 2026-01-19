@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-surface text-ink antialiased leading-relaxed;
+  font-feature-settings: "liga" 1, "kern" 1;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  @apply text-accent underline-offset-4 hover:underline;
+}
+
+::selection {
+  background: #cfe8e6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.dark body {
+  background: #0b1413;
+  color: #f1f3f2;
+}
+
+.dark a {
+  color: #7dd3ce;
+}
+
+/* Override Next.js Image fill height for logo */
+a[aria-label*="logo"] img.object-contain,
+a[aria-label*="Mugen Codes"] img.object-contain {
+  height: auto !important;
+}
