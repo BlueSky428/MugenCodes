@@ -1,13 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
-  "/robots.txt/route": "app/robots.txt/route.js",
-  "/sitemap.xml/route": "app/sitemap.xml/route.js",
-  "/privacy/page": "app/privacy/page.js",
-  "/api/contact/route": "app/api/contact/route.js",
-  "/how-we-work/page": "app/how-we-work/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/why-it-works/page": "app/why-it-works/page.js",
-  "/services/page": "app/services/page.js",
-  "/team/page": "app/team/page.js"
+  "/icon.ico/route": "app/icon.ico/route.js"
 }

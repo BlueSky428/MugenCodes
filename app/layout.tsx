@@ -37,8 +37,8 @@ export const metadata: Metadata = {
     canonical: siteConfig.url
   },
   icons: {
-    icon: [{ url: "/favicon.png", type: "image/png" }],
-    apple: [{ url: "/favicon.png", type: "image/png" }]
+    icon: "/icon.ico",
+    apple: "/icon.ico"
   }
 };
 
