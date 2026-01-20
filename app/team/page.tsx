@@ -85,9 +85,11 @@ export default function TeamPage() {
   return (
     <>
       <Section title="A focused team with clearly defined roles">
-        <p>
-          We maintain a small, dedicated team by design. Each role has clearly defined responsibilities and ownership, enabling efficient execution with reduced risk and greater predictability.
-        </p>
+        <div className="max-w-3xl">
+          <p>
+            We maintain a small, dedicated team by design. Each role has clearly defined responsibilities and ownership, enabling efficient execution with reduced risk and greater predictability.
+          </p>
+        </div>
       </Section>
 
       <Section title="Meet the team">
@@ -121,7 +123,7 @@ export default function TeamPage() {
                 <p>{member.location}</p>
                 <p className="pt-1 text-ink/75 dark:text-white/75">{member.majorSkills}</p>
               </div>
-              <div className="mt-6 space-y-4 border-t border-ink/10 pt-6 text-sm leading-relaxed dark:border-white/10">
+              <div className="mt-6 space-y-4 border-t border-ink/10 pt-6 text-base leading-relaxed dark:border-white/10">
                 <p className="text-ink/70 dark:text-white/70">{member.bio}</p>
                 <p className="text-ink/70 dark:text-white/70">
                   {member.strengths}
@@ -131,15 +133,6 @@ export default function TeamPage() {
             </div>
           ))}
         </div>
-      </Section>
-
-      <Section title="Communication structure and decision-making process">
-        <p>
-          You maintain direct communication with the project manager, who listens to your requirements, confirms objectives in writing, and provides transparent progress updates.
-        </p>
-        <p>
-          The lead developer translates your objectives into a comprehensive technical plan and conducts quality reviews for all deliverables. The senior developers take full ownership of their assigned tasks and deliver with meticulous attention to detail.
-        </p>
       </Section>
     </>
   );

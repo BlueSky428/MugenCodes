@@ -65,12 +65,6 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
-        <a
-          href="/contact"
-          className="fixed bottom-6 right-6 z-40 hidden rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white shadow-card transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface dark:focus-visible:ring-offset-night md:inline-flex"
-        >
-          Contact our Project Manager
-        </a>
         <AnalyticsPlaceholder />
       </body>
     </html>

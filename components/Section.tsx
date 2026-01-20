@@ -21,7 +21,7 @@ export const Section = ({ title, eyebrow, children, className }: SectionProps) =
             {title}
           </h2>
         ) : null}
-        <div className="mt-6 space-y-5 text-[17px] text-ink/80 dark:text-white/70">
+        <div className="mt-8 space-y-6 text-base text-ink/70 dark:text-white/70 leading-relaxed">
           {children}
         </div>
       </div>

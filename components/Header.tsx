@@ -7,9 +7,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/team", label: "Team" },
-  { href: "/how-we-work", label: "How We Work" },
   { href: "/services", label: "Services" },
-  { href: "/why-choose-us", label: "Why Choose Us" },
   { href: "/contact", label: "Contact" }
 ];
 
@@ -37,12 +35,6 @@ export const Header = () => {
         </nav>
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center rounded-full bg-accent px-3.5 py-1.5 text-xs font-semibold text-white shadow-soft transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface dark:focus-visible:ring-offset-night md:text-sm md:px-4 md:py-2"
-          >
-            Talk to our Project Manager
-          </Link>
         </div>
       </div>
     </header>
