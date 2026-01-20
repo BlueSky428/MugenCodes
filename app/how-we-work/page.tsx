@@ -8,45 +8,45 @@ export const metadata: Metadata = {
 
 const steps = [
   {
-    title: "Discovery with calm listening",
+    title: "Discovery and requirements gathering",
     body:
-      "We begin with a careful call to learn your goals and risks. We ask simple questions and write notes you can review."
+      "We begin with a comprehensive consultation to understand your objectives, requirements, and potential risks. We conduct structured interviews and document findings for your review and approval."
   },
   {
-    title: "Requirements confirmed in writing",
+    title: "Requirements documentation and confirmation",
     body:
-      "We turn your goals into a short written scope. This becomes the shared agreement so everyone stays aligned."
+      "We translate your objectives into a comprehensive written scope document. This document serves as the formal agreement to ensure all stakeholders remain aligned throughout the project."
   },
   {
-    title: "Technical planning for stability",
+    title: "Technical architecture and planning",
     body:
-      "The lead developer plans the system structure, which means how the parts fit together. This plan keeps delivery safe and predictable."
+      "Our lead developer designs the system architecture, defining how components integrate and interact. This technical plan ensures safe, predictable delivery and maintainable solutions."
   },
   {
-    title: "Development with weekly updates",
+    title: "Iterative development with regular updates",
     body:
-      "The team builds in small steps and shares weekly updates. You always know what is done and what is next."
+      "The development team implements features in incremental phases and provides weekly progress reports. You maintain full visibility into completed work and upcoming milestones."
   },
   {
-    title: "Review and quality checks",
+    title: "Quality assurance and system review",
     body:
-      "We test each feature and review the full system before delivery. This keeps launch calm and lowers the chance of last minute issues."
+      "We conduct comprehensive testing for each feature and perform full system reviews prior to delivery. This rigorous process ensures smooth launches and minimizes post-deployment issues."
   },
   {
-    title: "Delivery and handover",
+    title: "Delivery and knowledge transfer",
     body:
-      "We deliver with clear documentation and a handover call. You see how everything works before we finish."
+      "We deliver the completed system with comprehensive documentation and conduct a detailed handover session. You receive full visibility into system functionality and operational procedures before project completion."
   },
   {
-    title: "Post launch support",
+    title: "Post-launch support and maintenance",
     body:
-      "We stay close after launch for fixes and improvements. You are not left alone with a new system."
+      "We provide ongoing support and maintenance services following launch. You receive continued assistance for bug fixes, enhancements, and system optimization."
   }
 ];
 
 export default function HowWeWorkPage() {
   return (
-    <Section title="How we work">
+    <Section>
       <div className="space-y-8">
         {steps.map((step) => (
           <div

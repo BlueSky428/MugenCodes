@@ -6,24 +6,24 @@ import { Section } from "@/components/Section";
 
 const faqItems = [
   {
-    question: "How do we start a project",
+    question: "How do we start a project?",
     answer:
-      "We begin with a calm call to hear your goals. We then write a clear plan so you can review it in simple words."
+      "We begin with a consultation call to understand your objectives and requirements. We then prepare a comprehensive written plan for your review and approval."
   },
   {
-    question: "Who do I talk to each week",
+    question: "Who do I communicate with on a regular basis?",
     answer:
-      "You speak with our project manager. You always get one clear voice and steady updates."
+      "You will have direct communication with our project manager, who serves as your primary point of contact and provides consistent updates throughout the project lifecycle."
   },
   {
-    question: "How do you manage risk",
+    question: "How do you manage project risk?",
     answer:
-      "We set clear ownership for every step. The lead developer checks the plan and the quality so problems are found early."
+      "We establish clear ownership for every project phase. Our lead developer reviews the technical plan and conducts quality assurance checks to identify and address potential issues early in the development process."
   },
   {
-    question: "What happens after delivery",
+    question: "What happens after project delivery?",
     answer:
-      "We stay close for support and improvements. You have a clear handover so your team feels confident."
+      "We provide ongoing support and maintenance services. You receive comprehensive documentation and a detailed handover to ensure your team can confidently manage the delivered system."
   }
 ];
 
@@ -42,11 +42,10 @@ export default function HomePage() {
           />
           <div className="relative max-w-3xl space-y-6">
             <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-5xl dark:text-white">
-              Calm delivery you can trust
+              Reliable delivery you can trust
             </h1>
             <p className="text-[19px] text-ink/70 dark:text-white/70">
-              Senior engineers and clear communication so your project stays safe
-              and on time.
+              Senior engineers and transparent communication to ensure your project is delivered safely and on schedule.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -66,48 +65,39 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Section title="Clear ownership lowers risk">
+      <Section title="Clear ownership reduces risk">
         <p>
-          You work with a focused team of four. The project manager keeps
-          requirements clear, progress visible, and payments simple. The lead
-          developer plans the system structure, which means how the parts fit
-          together, and owns quality and delivery. Two senior developers build
-          and test their own work.
+          You work with a dedicated team of four professionals. The project manager maintains clear requirements, transparent progress tracking, and streamlined payment processes. The lead developer designs the system architecture and oversees quality assurance and delivery. Two senior developers implement and test their assigned components.
         </p>
         <p>
-          This structure creates fast communication and steady delivery. You
-          know who is responsible for each decision, which keeps the project
-          calm.
+          This organizational structure enables efficient communication and consistent delivery. Decision-making authority is clearly defined, ensuring accountability and project stability.
         </p>
       </Section>
 
       <Section title="Outcomes that protect your investment">
         <p>
-          You get stable architecture, meaning a clear system structure, so the
-          product stays easy to change.
+          You receive a stable, well-architected system with a clear structure that remains maintainable and adaptable to future requirements.
         </p>
         <p>
-          You get clean delivery with careful review, so launch days feel quiet
-          and safe.
+          You receive thoroughly tested deliverables with comprehensive quality reviews, ensuring smooth and confident launches.
         </p>
         <p>
-          You get ongoing support with a known team, so the product keeps
-          improving without confusion.
+          You receive ongoing support from your dedicated team, enabling continuous product improvement with clear communication and documentation.
         </p>
       </Section>
 
       <Section>
         <CTA
-          title="Talk with the person who owns clarity"
-          body="Our project manager listens first, then guides the plan. You get calm answers and a clear path."
-          primaryLabel="Talk to our Project Manager"
+          title="Speak with the person responsible for project clarity"
+          body="Our project manager begins by understanding your needs, then develops a strategic plan. You receive clear guidance and a well-defined path forward."
+          primaryLabel="Contact our Project Manager"
           primaryHref="/contact"
-          secondaryLabel="See how we work"
+          secondaryLabel="Learn how we work"
           secondaryHref="/how-we-work"
         />
       </Section>
 
-      <Section title="Questions we often hear">
+      <Section title="Frequently asked questions">
         <FAQ items={faqItems} />
       </Section>
     </>

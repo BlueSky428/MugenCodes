@@ -18,7 +18,7 @@ export const Footer = () => {
               />
             </span>
           </div>
-          <p>We build software with calm delivery and clear care.</p>
+          <p>We deliver software solutions with reliability and attention to detail.</p>
         </div>
         <div className="flex flex-wrap items-center gap-6 text-sm text-ink/70 dark:text-white/70">
           <Link href="/privacy" className="hover:text-ink dark:hover:text-white">

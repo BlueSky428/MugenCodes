@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/team",
     "/how-we-work",
     "/services",
-    "/why-it-works",
+    "/why-choose-us",
     "/contact",
     "/privacy"
   ];

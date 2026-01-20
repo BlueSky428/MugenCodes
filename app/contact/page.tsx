@@ -11,10 +11,9 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <Section title="Let us talk about your project">
+      <Section title="Let's discuss your project">
         <p>
-          We reply within two business days. The first call is calm and focused
-          on your goals and risks.
+          We respond to all inquiries within two business days. The initial consultation is structured and focused on understanding your objectives and identifying potential risks.
         </p>
       </Section>
 
@@ -27,26 +26,25 @@ export default function ContactPage() {
                 Direct email
               </h3>
               <p className="text-ink/70 dark:text-white/70">
-                You can also email us at{" "}
+                You may also contact us directly via email at{" "}
                 <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
               </p>
             </div>
             <div className="space-y-3">
               <h3 className="text-xl font-semibold text-ink dark:text-white">
-                Calendar link
+                Schedule a consultation
               </h3>
               <p className="text-ink/70 dark:text-white/70">
-                Book a short introduction call at{" "}
-                <a href={siteConfig.calendarUrl}>our calendar link</a>.
+                Schedule an introductory consultation using{" "}
+                <a href={siteConfig.calendarUrl}>our calendar booking system</a>.
               </p>
             </div>
             <div className="space-y-3">
               <h3 className="text-xl font-semibold text-ink dark:text-white">
-                What happens next
+                Next steps
               </h3>
               <p className="text-ink/70 dark:text-white/70">
-                The project manager reviews your request and replies with clear
-                questions or a proposed plan.
+                Our project manager will review your inquiry and respond with specific questions or a proposed project plan.
               </p>
             </div>
           </div>

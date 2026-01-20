@@ -41,7 +41,7 @@ export const ContactForm = () => {
       setState({
         status: "success",
         message:
-          "Thank you. We will reply within two business days with next steps."
+          "Thank you for your inquiry. We will respond within two business days with next steps."
       });
       return;
     }
@@ -52,7 +52,7 @@ export const ContactForm = () => {
 
     setState({
       status: "error",
-      message: "Please review the form and try again.",
+      message: "Please review the form for errors and try again.",
       fieldErrors: data.errors
     });
   };
@@ -87,8 +87,8 @@ export const ContactForm = () => {
           ) : null}
         </label>
       </div>
-      <label className="space-y-2 text-sm font-medium text-ink dark:text-white">
-        Company optional
+        <label className="space-y-2 text-sm font-medium text-ink dark:text-white">
+          Company (optional)
         <input
           name="company"
           className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
@@ -108,14 +108,14 @@ export const ContactForm = () => {
       </label>
       <div className="grid gap-6 md:grid-cols-2">
         <label className="space-y-2 text-sm font-medium text-ink dark:text-white">
-          Budget range optional
+          Budget range (optional)
           <input
             name="budget"
             className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
           />
         </label>
         <label className="space-y-2 text-sm font-medium text-ink dark:text-white">
-          Timeline optional
+          Timeline (optional)
           <input
             name="timeline"
             className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
@@ -129,7 +129,7 @@ export const ContactForm = () => {
           required
           className="mt-1 h-4 w-4 rounded border-ink/20 dark:border-white/20"
         />
-        I agree to the privacy policy.
+        I agree to the privacy policy and terms of service.
       </label>
       {state.fieldErrors?.privacyAccepted ? (
         <p className="text-xs text-accent">
@@ -145,7 +145,7 @@ export const ContactForm = () => {
         className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-nightSoft"
         disabled={state.status === "loading"}
       >
-        {state.status === "loading" ? "Sending" : "Send request"}
+        {state.status === "loading" ? "Submitting" : "Submit request"}
       </button>
       {state.message ? (
         <p

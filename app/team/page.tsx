@@ -27,13 +27,13 @@ const teamMembers: TeamMember[] = [
     age: "41 years old",
     location: "New Delhi, India",
     majorSkills:
-      "Major skill is client communication and project coordination.",
+      "Specializes in client communication and project coordination.",
     bio:
-      "Jayabrata is an Indian project manager with deep client care and a wide partner network. He keeps goals clear and builds trust through calm updates.",
+      "Jayabrata is a project manager based in India with extensive client relationship management experience and a broad partner network. He maintains clear project objectives and builds trust through transparent, regular communication.",
     strengths:
-      "He turns complex ideas into clear written plans and keeps decisions moving without pressure.",
+      "He translates complex requirements into comprehensive written plans and facilitates decision-making processes efficiently.",
     value:
-      "Clients get a steady point of contact and a clear view of progress at all times."
+      "Clients benefit from a dedicated point of contact and comprehensive visibility into project progress at all stages."
   },
   {
     name: "Ren Takahashi",
@@ -41,53 +41,52 @@ const teamMembers: TeamMember[] = [
     photoSrc: "/team/ren.png",
     age: "31 years old",
     location: "Tokyo, Japan",
-    majorSkills: "Major skill is system architecture and technical planning.",
+    majorSkills: "Specializes in system architecture and technical planning.",
     bio:
-      "Ren is a Japanese senior developer who leads architecture, meaning the structure of the system. He sets the technical plan and reviews quality before delivery.",
+      "Ren is a senior developer based in Japan who leads system architecture design. He establishes technical specifications and conducts quality assurance reviews prior to delivery.",
     strengths:
-      "He breaks work into safe steps and checks that the system stays stable and easy to change.",
+      "He decomposes complex work into manageable phases and ensures system stability and maintainability.",
     value:
-      "Clients get reliable delivery and fewer surprises because planning and review are owned."
+      "Clients receive reliable deliverables with minimal surprises due to comprehensive planning and thorough review processes."
   },
   {
     name: "Takahiro Sato",
     role: "Senior Developer",
-    photoSrc: "/team/takahiro.svg",
+    photoSrc: "/team/takahiro.png",
     age: "31 years old",
     location: "Tokyo, Japan",
     majorSkills:
-      "Major skill is code quality and documentation.",
+      "Specializes in code quality and technical documentation.",
     bio:
-      "Takahiro is a Japanese senior developer who focuses on careful implementation and clean handover. He owns his tasks and documents what he ships.",
+      "Takahiro is a senior developer based in Japan who focuses on meticulous implementation and comprehensive handover documentation. He takes full ownership of assigned tasks and maintains detailed documentation for all deliverables.",
     strengths:
-      "He writes clear code and tests his work so the system stays stable under change.",
+      "He produces well-structured, maintainable code and implements thorough testing to ensure system stability during future modifications.",
     value:
-      "Clients get dependable features and easy future maintenance."
+      "Clients receive dependable features with comprehensive documentation that facilitates future maintenance and enhancements."
   },
   {
     name: "Kenji Nakamura",
     role: "Senior Developer",
-    photoSrc: "/team/kenji.svg",
+    photoSrc: "/team/kenji.png",
     age: "31 years old",
     location: "Tokyo, Japan",
     majorSkills:
-      "Major skill is problem solving and reliable delivery.",
+      "Specializes in problem solving and reliable delivery.",
     bio:
-      "Kenji is a Japanese senior developer with a calm problem solving style. He takes ownership of his deliverables and keeps quality high.",
+      "Kenji is a senior developer based in Japan with a methodical approach to problem solving. He takes full ownership of his deliverables and maintains high quality standards.",
     strengths:
-      "He balances speed with care so delivery stays steady without cutting corners.",
+      "He balances efficiency with thoroughness to ensure consistent delivery without compromising quality.",
     value:
-      "Clients get steady progress and a result that feels solid on launch day."
+      "Clients receive consistent progress updates and a robust, production-ready solution upon launch."
   }
 ];
 
 export default function TeamPage() {
   return (
     <>
-      <Section title="A calm team with clear roles">
+      <Section title="A focused team with clearly defined roles">
         <p>
-          We are a small team by design. Each role is clear and owned, so work
-          moves with less risk and fewer surprises.
+          We maintain a small, dedicated team by design. Each role has clearly defined responsibilities and ownership, enabling efficient execution with reduced risk and greater predictability.
         </p>
       </Section>
 
@@ -134,15 +133,12 @@ export default function TeamPage() {
         </div>
       </Section>
 
-      <Section title="Who you talk to and how decisions move">
+      <Section title="Communication structure and decision-making process">
         <p>
-          You always talk with the project manager. He listens, confirms goals
-          in writing, and keeps progress clear.
+          You maintain direct communication with the project manager, who listens to your requirements, confirms objectives in writing, and provides transparent progress updates.
         </p>
         <p>
-          The lead developer turns your goals into a safe plan and reviews every
-          delivery. The senior developers own the tasks assigned to them and
-          deliver with care.
+          The lead developer translates your objectives into a comprehensive technical plan and conducts quality reviews for all deliverables. The senior developers take full ownership of their assigned tasks and deliver with meticulous attention to detail.
         </p>
       </Section>
     </>
