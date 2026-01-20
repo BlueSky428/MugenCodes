@@ -16,6 +16,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/team/page.js"
     ],
+    "/how-we-work/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/how-we-work/page.js"
+    ],
+    "/services/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/page.js"
+    ],
     "/why-it-works/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

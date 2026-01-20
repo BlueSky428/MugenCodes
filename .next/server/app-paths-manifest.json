@@ -1,6 +1,8 @@
 {
   "/page": "app/page.js",
   "/team/page": "app/team/page.js",
+  "/how-we-work/page": "app/how-we-work/page.js",
   "/why-it-works/page": "app/why-it-works/page.js",
-  "/icon.ico/route": "app/icon.ico/route.js"
+  "/services/page": "app/services/page.js",
+  "/contact/page": "app/contact/page.js"
 }
