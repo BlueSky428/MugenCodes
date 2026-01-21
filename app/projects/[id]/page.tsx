@@ -91,9 +91,6 @@ export default function ProjectDetailPage() {
 
     const handleStatusUpdate = (data: { projectId: string; status?: string; project?: any }) => {
       if (data.projectId === params.id) {
-        // #region agent log
-        fetch('http://127.0.0.1:7245/ingest/c327e57a-cec4-4772-8156-daa3914e05f0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app/projects/[id]/page.tsx:handleStatusUpdate',message:'Received project-status-updated',data:{projectId:data.projectId,status:data.status,hasProject:!!data.project},timestamp:Date.now(),sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H4'})}).catch(()=>{});
-        // #endregion agent log
         if (data.project) {
           // Update project immediately with received data
           setProject(data.project);

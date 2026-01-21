@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 import { siteConfig } from "@/lib/site";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -28,7 +29,7 @@ const navLinks = [
 ];
 
 export const Header = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const isAdmin = session?.user?.role === "ADMIN" || session?.user?.role === "DEVELOPER";
 
   return (
@@ -73,6 +74,35 @@ export const Header = () => {
           )}
         </nav>
         <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-3 md:flex">
+            {status === "loading" ? (
+              <span className="text-xs text-ink/50 dark:text-white/50">Checking session…</span>
+            ) : session?.user ? (
+              <>
+                <div className="text-right leading-tight">
+                  <div className="text-xs font-medium text-ink dark:text-white">
+                    {session.user.name || session.user.email}
+                  </div>
+                  <div className="text-[11px] text-ink/60 dark:text-white/60">
+                    {session.user.role}
+                  </div>
+                </div>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="rounded-full border border-ink/20 bg-white px-3 py-1.5 text-xs font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                >
+                  Log out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/auth/signin"
+                className="rounded-full border border-ink/20 bg-white px-3 py-1.5 text-xs font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+              >
+                Sign in
+              </Link>
+            )}
+          </div>
           <ThemeToggle />
         </div>
       </div>
