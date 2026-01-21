@@ -54,7 +54,7 @@ export default function ProjectDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
-  const { socket } = useSocket(params.id as string);
+  const { socket, connected } = useSocket(params.id as string);
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -78,9 +78,9 @@ export default function ProjectDetailPage() {
     }
   }, [sessionStatus, params.id]);
 
-  // Listen for project refresh and status changes via WebSocket
+  // Listen for project refresh and status changes via WebSocket (when enabled)
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || !connected) return;
 
     const handleRefreshProject = async (projectId: string) => {
       if (projectId === params.id) {
@@ -108,11 +108,11 @@ export default function ProjectDetailPage() {
       socket.off("refresh-project", handleRefreshProject);
       socket.off("project-status-updated", handleStatusUpdate);
     };
-  }, [socket, params.id]);
+  }, [socket, connected, params.id]);
 
   // Fallback polling for project updates (if WebSocket fails)
   useEffect(() => {
-    if (sessionStatus !== "authenticated" || !params.id || loading || socket) return;
+    if (sessionStatus !== "authenticated" || !params.id || loading || (socket && connected)) return;
 
     const pollInterval = setInterval(async () => {
       try {
@@ -155,7 +155,7 @@ export default function ProjectDetailPage() {
     return () => {
       clearInterval(pollInterval);
     };
-  }, [sessionStatus, params.id, loading, socket]);
+  }, [sessionStatus, params.id, loading, socket, connected]);
 
   const fetchProject = async () => {
     try {

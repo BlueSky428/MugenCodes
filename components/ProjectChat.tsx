@@ -65,7 +65,7 @@ export function ProjectChat({ projectId }: ProjectChatProps) {
     }
   }, [projectId]);
 
-  // Listen for new messages via WebSocket
+  // Listen for new messages via WebSocket (when enabled)
   useEffect(() => {
     if (!socket) return;
 
@@ -89,6 +89,26 @@ export function ProjectChat({ projectId }: ProjectChatProps) {
       socket.off("error", handleError);
     };
   }, [socket]);
+
+  // Fallback polling (Vercel/serverless-friendly) when WebSocket is disabled/unavailable
+  useEffect(() => {
+    if (!projectId || !session) return;
+    if (socket && connected) return;
+
+    const pollInterval = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/projects/${projectId}/messages`, { cache: "no-store" });
+        const data = await response.json();
+        if (response.ok && data.messages) {
+          setMessages(data.messages);
+        }
+      } catch {
+        // ignore polling errors; UI will retry
+      }
+    }, 2000);
+
+    return () => clearInterval(pollInterval);
+  }, [projectId, session, socket, connected]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();

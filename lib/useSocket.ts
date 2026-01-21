@@ -11,6 +11,14 @@ export function useSocket(projectId: string | null) {
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
+    // Vercel does not support running our custom Socket.IO server (`server.js`).
+    // Default to disabled unless explicitly enabled.
+    const wsEnabled = process.env.NEXT_PUBLIC_ENABLE_WS === "true";
+    if (!wsEnabled) {
+      setConnected(false);
+      setSocket(null);
+      return;
+    }
     if (!projectId || !session?.user) return;
 
     // Initialize socket connection
