@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "@/lib/auth";
+import { getToken } from "next-auth/jwt";
 
 export async function middleware(request: NextRequest) {
-  const session = await auth();
-  const isAdmin = session?.user?.role === "ADMIN" || session?.user?.role === "DEVELOPER";
+  // IMPORTANT: middleware runs on the Edge runtime.
+  // Do NOT import Prisma/bcrypt/NextAuth server helpers here.
+  const token = await getToken({
+    req: request,
+    secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+  });
+  const role = (token as any)?.role as string | undefined;
+  const isAdmin = role === "ADMIN" || role === "DEVELOPER";
 
   // Allow public routes
   const publicRoutes = ["/", "/team", "/services", "/contact", "/privacy", "/auth"];
@@ -14,7 +20,7 @@ export async function middleware(request: NextRequest) {
 
   // Protect project routes
   if (request.nextUrl.pathname.startsWith("/projects")) {
-    if (!session) {
+    if (!token) {
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Section } from "@/components/Section";
@@ -45,36 +45,18 @@ export default function AdminPage() {
     pendingNegotiation: 0,
   });
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin");
-      return;
-    }
-
-    if (status === "authenticated") {
-      // Check if user is admin/developer
-      if (session?.user?.role !== "ADMIN" && session?.user?.role !== "DEVELOPER") {
-        router.push("/");
-        return;
-      }
-      fetchProjects();
-    }
-  }, [status, filter, session]);
-
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     try {
       const response = await fetch("/api/projects");
       const data = await response.json();
 
       if (!response.ok) {
-        console.error("API Error:", data.error);
         setError(data.error || "Failed to fetch projects");
         setLoading(false);
         return;
       }
 
       const allProjects = data.projects || [];
-      console.log("Fetched projects:", allProjects.length, "User role:", session?.user?.role);
       
       setProjects(allProjects);
 
@@ -117,7 +99,23 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filter]);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/signin");
+      return;
+    }
+
+    if (status === "authenticated") {
+      // Check if user is admin/developer
+      if (session?.user?.role !== "ADMIN" && session?.user?.role !== "DEVELOPER") {
+        router.push("/");
+        return;
+      }
+      fetchProjects();
+    }
+  }, [status, session?.user?.role, router, fetchProjects]);
 
   if (status === "loading" || loading) {
     return <Section title="Loading...">Please wait...</Section>;

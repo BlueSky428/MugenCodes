@@ -64,7 +64,7 @@ export default function HomePage() {
               Collaborative development advantage
             </h2>
             <p className="text-base text-ink/70 dark:text-white/70 leading-relaxed">
-              With three professional developers working collaboratively on your project, you benefit from significant advantages over hiring a single freelancer. Our team structure enables parallel development, where multiple features are built simultaneously rather than sequentially. This approach reduces project timelines while maintaining high quality standards. Quality is enhanced through peer review and collaborative problem-solving—each developer's work is reviewed by team members, catching issues early and ensuring consistent code quality.
+              With three professional developers working collaboratively on your project, you benefit from significant advantages over hiring a single freelancer. Our team structure enables parallel development, where multiple features are built simultaneously rather than sequentially. This approach reduces project timelines while maintaining high quality standards. Quality is enhanced through peer review and collaborative problem-solving—each developer’s work is reviewed by team members, catching issues early and ensuring consistent code quality.
             </p>
           </div>
 

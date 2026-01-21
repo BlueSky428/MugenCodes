@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Section } from "@/components/Section";
@@ -67,6 +67,28 @@ export default function ProjectDetailPage() {
   const [updateContent, setUpdateContent] = useState("");
   const [submittingUpdate, setSubmittingUpdate] = useState(false);
 
+  const fetchProject = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch(`/api/projects/${params.id}`, { cache: "no-store" });
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Failed to load project");
+        setProject(null);
+        return;
+      }
+
+      setProject(data.project);
+    } catch (err) {
+      setError("An error occurred while loading the project");
+      setProject(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [params.id]);
+
   useEffect(() => {
     if (sessionStatus === "unauthenticated") {
       router.push("/auth/signin");
@@ -76,7 +98,7 @@ export default function ProjectDetailPage() {
     if (sessionStatus === "authenticated") {
       fetchProject();
     }
-  }, [sessionStatus, params.id]);
+  }, [sessionStatus, router, fetchProject]);
 
   // Listen for project refresh and status changes via WebSocket (when enabled)
   useEffect(() => {
@@ -108,7 +130,7 @@ export default function ProjectDetailPage() {
       socket.off("refresh-project", handleRefreshProject);
       socket.off("project-status-updated", handleStatusUpdate);
     };
-  }, [socket, connected, params.id]);
+  }, [socket, connected, params.id, fetchProject]);
 
   // Fallback polling for project updates (if WebSocket fails)
   useEffect(() => {
@@ -156,24 +178,6 @@ export default function ProjectDetailPage() {
       clearInterval(pollInterval);
     };
   }, [sessionStatus, params.id, loading, socket, connected]);
-
-  const fetchProject = async () => {
-    try {
-      const response = await fetch(`/api/projects/${params.id}`);
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || "Failed to load project");
-        return;
-      }
-
-      setProject(data.project);
-    } catch (err) {
-      setError("An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleFeasibilityReview = async () => {
     if (feasibilityStatus === "REJECTED" && !feasibilityReason.trim()) {

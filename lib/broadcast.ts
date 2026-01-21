@@ -7,7 +7,6 @@ export async function broadcastProjectChange(projectId: string, changeType: "sta
   try {
     // IMPORTANT: route handlers must use the same singleton that `server.js` initializes.
     // That singleton lives in CommonJS `lib/socket.js`.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const socketModule = require("./socket.js");
     const io = socketModule.getIO();
     

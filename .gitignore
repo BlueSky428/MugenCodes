@@ -1,3 +1,10 @@
 node_modules
 .next
 /generated/prisma
+
+# Local env
+.env
+
+# Prisma / databases
+*.db
+prisma/migrations_sqlite_backup

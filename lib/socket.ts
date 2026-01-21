@@ -7,17 +7,14 @@
  * this TypeScript module acts as a thin bridge to the CommonJS implementation.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyServer = any;
+type AnyServer = unknown;
 
 export function initializeSocket(server: AnyServer) {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const mod = require("./socket.js");
   return mod.initializeSocket(server);
 }
 
 export function getIO() {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const mod = require("./socket.js");
   return mod.getIO();
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Section } from "@/components/Section";
@@ -18,18 +18,7 @@ export default function PlanProjectPage() {
   const [developmentPlan, setDevelopmentPlan] = useState("");
   const [milestones, setMilestones] = useState<Array<{ name: string; description: string; amount: string; dueDate: string }>>([{ name: "", description: "", amount: "", dueDate: "" }]);
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin");
-      return;
-    }
-
-    if (status === "authenticated") {
-      fetchProject();
-    }
-  }, [status]);
-
-  const fetchProject = async () => {
+  const fetchProject = useCallback(async () => {
     try {
       const response = await fetch(`/api/projects/${params.id}`);
       const data = await response.json();
@@ -56,7 +45,18 @@ export default function PlanProjectPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.id]);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/signin");
+      return;
+    }
+
+    if (status === "authenticated") {
+      fetchProject();
+    }
+  }, [status, router, fetchProject]);
 
   const addMilestone = () => {
     setMilestones([...milestones, { name: "", description: "", amount: "", dueDate: "" }]);
@@ -158,7 +158,7 @@ export default function PlanProjectPage() {
           {isNegotiationResponse && project?.negotiationMessage && (
             <div className="rounded-3xl border border-yellow-200 bg-yellow-50 p-6 dark:border-yellow-800 dark:bg-yellow-900/20">
               <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-400 mb-2">
-                Client's Re-negotiation Request
+                Client’s Re-negotiation Request
               </h3>
               <p className="text-base text-yellow-700 dark:text-yellow-300 whitespace-pre-wrap">
                 {project.negotiationMessage}

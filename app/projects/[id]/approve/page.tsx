@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Section } from "@/components/Section";
@@ -16,18 +16,7 @@ export default function ApproveProjectPage() {
   const [showRenegotiate, setShowRenegotiate] = useState(false);
   const [negotiationMessage, setNegotiationMessage] = useState("");
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin");
-      return;
-    }
-
-    if (status === "authenticated") {
-      fetchProject();
-    }
-  }, [status]);
-
-  const fetchProject = async () => {
+  const fetchProject = useCallback(async () => {
     try {
       const response = await fetch(`/api/projects/${params.id}`);
       const data = await response.json();
@@ -43,7 +32,18 @@ export default function ApproveProjectPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.id]);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/signin");
+      return;
+    }
+
+    if (status === "authenticated") {
+      fetchProject();
+    }
+  }, [status, router, fetchProject]);
 
   const handleAction = async (action: "approve" | "reject" | "renegotiate") => {
     if (action === "approve") {

@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
+export const runtime = "nodejs";
+
 export async function POST(request: Request) {
+  const requestId = crypto.randomUUID();
   try {
     const body = await request.json();
     const { name, email, password } = body;
@@ -52,9 +55,19 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error("Signup error:", error);
+    const err = error as any;
+    console.error("Signup error:", {
+      requestId,
+      name: err?.name,
+      message: err?.message,
+      code: err?.code,
+    });
     return NextResponse.json(
-      { error: "An error occurred while creating your account" },
+      {
+        error: "An error occurred while creating your account",
+        requestId,
+        code: err?.code || "UNKNOWN",
+      },
       { status: 500 }
     );
   }

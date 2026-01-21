@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ProjectsList } from "@/components/ProjectsList";
@@ -11,18 +11,7 @@ export default function ApplicationInProgressPage() {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin");
-      return;
-    }
-
-    if (status === "authenticated") {
-      fetchProjects();
-    }
-  }, [status]);
-
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     try {
       const response = await fetch("/api/projects?status=APPLICATION_IN_PROGRESS");
       const data = await response.json();
@@ -35,7 +24,18 @@ export default function ApplicationInProgressPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/signin");
+      return;
+    }
+
+    if (status === "authenticated") {
+      fetchProjects();
+    }
+  }, [status, router, fetchProjects]);
 
   if (status === "loading" || loading) {
     return <div>Loading...</div>;
