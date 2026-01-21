@@ -87,7 +87,7 @@ export const ContactForm = () => {
           ) : null}
         </label>
       </div>
-        <label className="space-y-2 text-sm font-medium text-ink dark:text-white">
+      <label className="space-y-2 text-sm font-medium text-ink dark:text-white">
           Company (optional)
         <input
           name="company"

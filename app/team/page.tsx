@@ -86,9 +86,9 @@ export default function TeamPage() {
     <>
       <Section title="A focused team with clearly defined roles">
         <div className="max-w-3xl">
-          <p>
+        <p>
             We maintain a small, dedicated team by design. Each role has clearly defined responsibilities and ownership, enabling efficient execution with reduced risk and greater predictability.
-          </p>
+        </p>
         </div>
       </Section>
 
@@ -126,8 +126,8 @@ export default function TeamPage() {
               <div className="mt-6 space-y-4 border-t border-ink/10 pt-6 text-base leading-relaxed dark:border-white/10">
                 <p className="text-ink/70 dark:text-white/70">{member.bio}</p>
                 <p className="text-ink/70 dark:text-white/70">
-                  {member.strengths}
-                </p>
+                {member.strengths}
+              </p>
                 <p className="text-ink/70 dark:text-white/70">{member.value}</p>
               </div>
             </div>

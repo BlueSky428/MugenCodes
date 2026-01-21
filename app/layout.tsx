@@ -5,6 +5,7 @@ import "./globals.css";
 import { AnalyticsPlaceholder } from "@/components/AnalyticsPlaceholder";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { Providers } from "@/app/providers";
 import { siteConfig } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -62,9 +63,11 @@ export default function RootLayout({
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <Providers>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </Providers>
         <AnalyticsPlaceholder />
       </body>
     </html>

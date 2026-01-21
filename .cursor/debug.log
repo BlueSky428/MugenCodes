@@ -1,0 +1,6 @@
+{"location":"lib/socket.js:21","message":"socket.io connection","data":{"socketId":"Crof0ICUq89zag60AAAD"},"timestamp":1768974145526,"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H3"}
+{"location":"lib/socket.js:28","message":"join-project","data":{"socketId":"Crof0ICUq89zag60AAAD","projectId":"cmknl60gj0003e9hcakrh9tse"},"timestamp":1768974145536,"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H3"}
+{"location":"lib/socket.js:21","message":"socket.io connection","data":{"socketId":"F79x08mOV4Xx6b2QAAAF"},"timestamp":1768974145575,"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H3"}
+{"location":"lib/socket.js:28","message":"join-project","data":{"socketId":"F79x08mOV4Xx6b2QAAAF","projectId":"cmknl60gj0003e9hcakrh9tse"},"timestamp":1768974145581,"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H3"}
+{"location":"lib/socket.js:21","message":"socket.io connection","data":{"socketId":"sEGCMeMqGp_d9FewAAAH"},"timestamp":1768974188898,"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H3"}
+{"location":"lib/socket.js:28","message":"join-project","data":{"socketId":"sEGCMeMqGp_d9FewAAAH","projectId":"cmknlk3pc0001e9ysiq9l3xj6"},"timestamp":1768974188905,"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H3"}

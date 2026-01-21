@@ -1,0 +1,161 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CLIENT
+  ADMIN
+  DEVELOPER
+}
+
+enum ProjectStatus {
+  APPLICATION_IN_PROGRESS
+  DISCUSSION_IN_PROGRESS
+  DEVELOPMENT_IN_PROGRESS
+  APPROVED
+  FAILED
+}
+
+enum FeasibilityStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum MilestoneStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  password      String
+  role          UserRole  @default(CLIENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  projects      Project[]
+  messages      Message[]
+  
+  @@map("users")
+}
+
+model Project {
+  id                  String            @id @default(cuid())
+  name                String
+  requirements        String
+  developmentCost     Float
+  deadline            DateTime
+  
+  status              ProjectStatus     @default(APPLICATION_IN_PROGRESS)
+  
+  // Relationships
+  clientId            String
+  client              User              @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  
+  // Feasibility
+  feasibilityStatus   FeasibilityStatus @default(PENDING)
+  feasibilityReason    String?
+  feasibilityReviewedAt DateTime?
+  feasibilityReviewedBy String?
+  
+  // Development plan
+  developmentPlan     String?
+  
+  // Negotiation tracking
+  negotiationPending  String?           // "CLIENT" or "TEAM" - who is waiting for response
+  negotiationMessage  String?           // Latest negotiation request message
+  negotiationRequestedAt DateTime?      // When negotiation was requested
+  
+  // Milestones
+  milestones          Milestone[]
+  
+  // Payment tracking
+  totalPaid           Float             @default(0)
+  
+  // Reviews
+  review              Review?
+  
+  // Failure tracking
+  failureReason       String?
+  failureResponsibility String?
+  
+  // Updates
+  updates             ProjectUpdate[]
+  
+  // Messages
+  messages            Message[]
+  
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  
+  @@map("projects")
+}
+
+model Milestone {
+  id              String          @id @default(cuid())
+  name            String
+  description     String?
+  amount          Float
+  dueDate         DateTime
+  status          MilestoneStatus @default(PENDING)
+  paidAt          DateTime?
+  
+  projectId       String
+  project         Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@map("milestones")
+}
+
+model Review {
+  id              String    @id @default(cuid())
+  rating          Int       // 1-5 stars
+  comment         String?
+  projectId       String    @unique
+  project         Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime  @default(now())
+  
+  @@map("reviews")
+}
+
+model ProjectUpdate {
+  id              String    @id @default(cuid())
+  title           String
+  content         String
+  projectId       String
+  project         Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime  @default(now())
+  
+  @@map("project_updates")
+}
+
+model Message {
+  id              String    @id @default(cuid())
+  content         String
+  projectId       String
+  project         Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  senderId        String
+  sender          User      @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  read            Boolean   @default(false)
+  readAt          DateTime?
+  
+  createdAt       DateTime  @default(now())
+  
+  @@map("messages")
+}
