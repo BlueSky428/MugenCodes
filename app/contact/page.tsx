@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { ContactForm } from "@/components/ContactForm";
 import { Section } from "@/components/Section";
 import { siteConfig } from "@/lib/site";
 
@@ -8,48 +7,79 @@ export const metadata: Metadata = {
   title: "Contact"
 };
 
+interface ContactItemProps {
+  label: string;
+  value: string;
+  href: string;
+  icon?: string;
+}
+
+const ContactItem = ({ label, value, href, icon }: ContactItemProps) => {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-center gap-4 rounded-2xl border border-ink/10 bg-white p-6 transition hover:border-accent hover:shadow-soft dark:border-white/10 dark:bg-nightSoft dark:hover:border-accent"
+    >
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-xl font-semibold text-accent transition group-hover:bg-accent group-hover:text-white dark:bg-accent/20">
+        {icon || label.charAt(0)}
+      </div>
+      <div className="flex-1">
+        <div className="text-sm font-medium text-ink/70 dark:text-white/70">
+          {label}
+        </div>
+        <div className="mt-1 text-lg font-semibold text-ink dark:text-white">
+          {value}
+        </div>
+      </div>
+    </a>
+  );
+};
+
 export default function ContactPage() {
   return (
     <>
-      <Section title="Let's discuss your project">
+      <Section title="Get in touch">
         <div className="max-w-3xl">
-          <p>
-            We respond to all inquiries within two business days. The initial consultation is structured and focused on understanding your objectives and identifying potential risks.
+          <p className="text-base text-ink/70 dark:text-white/70">
+            We respond to all inquiries within two business days. Choose your preferred method to reach out to us.
           </p>
         </div>
       </Section>
 
       <Section>
-        <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr]">
-          <ContactForm />
-          <div className="space-y-6 rounded-3xl border border-ink/10 bg-white p-8 shadow-card transition hover:shadow-soft dark:border-white/10 dark:bg-nightSoft">
-            <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-ink dark:text-white">
-                Direct email
-              </h3>
-              <p className="text-base text-ink/70 dark:text-white/70 leading-relaxed">
-                You may also contact us directly via email at{" "}
-                <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
-              </p>
-            </div>
-            <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-ink dark:text-white">
-                Schedule a consultation
-              </h3>
-              <p className="text-base text-ink/70 dark:text-white/70 leading-relaxed">
-                Schedule an introductory consultation using{" "}
-                <a href={siteConfig.calendarUrl}>our calendar booking system</a>.
-              </p>
-            </div>
-            <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-ink dark:text-white">
-                Next steps
-              </h3>
-              <p className="text-base text-ink/70 dark:text-white/70 leading-relaxed">
-                Our project manager will review your inquiry and respond with specific questions or a proposed project plan.
-              </p>
-            </div>
-          </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <ContactItem
+            label="Phone"
+            value={siteConfig.phone}
+            href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
+            icon="📞"
+          />
+          <ContactItem
+            label="Email"
+            value={siteConfig.email}
+            href={`mailto:${siteConfig.email}`}
+            icon="✉️"
+          />
+          <ContactItem
+            label="Telegram"
+            value="@mugencodes"
+            href={siteConfig.telegram}
+            icon="💬"
+          />
+          <ContactItem
+            label="WhatsApp"
+            value="Chat with us"
+            href={siteConfig.whatsapp}
+            icon="💬"
+          />
+          <ContactItem
+            label="LinkedIn"
+            value="Connect with us"
+            href={siteConfig.linkedin}
+            icon="💼"
+          />
         </div>
       </Section>
     </>

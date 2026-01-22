@@ -1,6 +1,10 @@
 /**
  * Helper function to broadcast project changes via WebSocket
  * This can be used from API routes to notify clients of project updates
+ * 
+ * Broadcasts to:
+ * 1. Project-specific room (for detail pages)
+ * 2. All connected clients (for list pages and dashboards)
  */
 
 export async function broadcastProjectChange(projectId: string, changeType: "status" | "update" | "milestone" | "payment", data?: any) {
@@ -11,15 +15,24 @@ export async function broadcastProjectChange(projectId: string, changeType: "sta
     const io = socketModule.getIO();
     
     if (changeType === "status") {
-      // Broadcast status change with full project data
-      io.to(`project:${projectId}`).emit("project-status-updated", {
+      const payload = {
         projectId,
         status: data?.status,
         project: data?.project,
-      });
+      };
+      
+      // Broadcast to project-specific room (for detail pages)
+      io.to(`project:${projectId}`).emit("project-status-updated", payload);
+      
+      // Also broadcast to all connected clients (for list pages and dashboards)
+      io.emit("project-status-updated", payload);
     } else {
       // Broadcast general refresh
+      // To project-specific room
       io.to(`project:${projectId}`).emit("refresh-project", projectId);
+      
+      // Also broadcast to all connected clients
+      io.emit("refresh-project", projectId);
     }
   } catch (error) {
     // WebSocket might not be initialized (e.g., in API routes during build)

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Section } from "@/components/Section";
 import Link from "next/link";
 import { ProjectCard } from "@/components/ProjectCard";
+import { useGlobalSocket } from "@/lib/useGlobalSocket";
 
 type Project = {
   id: string;
@@ -30,6 +31,7 @@ type Project = {
 export default function AdminPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const { connected, onProjectUpdate } = useGlobalSocket();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -47,7 +49,9 @@ export default function AdminPage() {
 
   const fetchProjects = useCallback(async () => {
     try {
-      const response = await fetch("/api/projects");
+      const response = await fetch("/api/projects", {
+        cache: "no-store",
+      });
       const data = await response.json();
 
       if (!response.ok) {
@@ -57,8 +61,6 @@ export default function AdminPage() {
       }
 
       const allProjects = data.projects || [];
-      
-      setProjects(allProjects);
 
       // Calculate statistics
       const statsData = {
@@ -116,6 +118,30 @@ export default function AdminPage() {
       fetchProjects();
     }
   }, [status, session?.user?.role, router, fetchProjects]);
+
+  // Listen for project status updates via WebSocket
+  useEffect(() => {
+    if (!connected) return;
+
+    const unsubscribe = onProjectUpdate((projectId) => {
+      // Refresh the dashboard when any project updates
+      fetchProjects();
+    });
+
+    return unsubscribe;
+  }, [connected, onProjectUpdate, fetchProjects]);
+
+  // Fallback polling when WebSocket is not available
+  useEffect(() => {
+    if (status !== "authenticated" || connected) return;
+    if (session?.user?.role !== "ADMIN" && session?.user?.role !== "DEVELOPER") return;
+
+    const pollInterval = setInterval(() => {
+      fetchProjects();
+    }, 5000); // Poll every 5 seconds
+
+    return () => clearInterval(pollInterval);
+  }, [status, connected, session?.user?.role, fetchProjects]);
 
   if (status === "loading" || loading) {
     return <Section title="Loading...">Please wait...</Section>;
