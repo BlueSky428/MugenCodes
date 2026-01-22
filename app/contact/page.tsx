@@ -53,7 +53,7 @@ export default function ContactPage() {
           <ContactItem
             label="Phone"
             value={siteConfig.phone}
-            href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
+            href={`tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`}
             icon="📞"
           />
           <ContactItem
@@ -64,19 +64,19 @@ export default function ContactPage() {
           />
           <ContactItem
             label="Telegram"
-            value="@mugencodes"
+            value="Jayabrata Bhaduri"
             href={siteConfig.telegram}
             icon="💬"
           />
           <ContactItem
             label="WhatsApp"
-            value="Chat with us"
+            value="Jayabrata Bhaduri"
             href={siteConfig.whatsapp}
             icon="💬"
           />
           <ContactItem
             label="LinkedIn"
-            value="Connect with us"
+            value="Jayabrata Bhaduri"
             href={siteConfig.linkedin}
             icon="💼"
           />

@@ -1,10 +1,10 @@
 export const siteConfig = {
   name: "Mugen Codes",
   url: "https://mugen.codes",
-  email: "hello@mugen.codes",
+  email: "codesmugen@gmail.com",
   calendarUrl: "https://cal.com/mugen/intro",
-  phone: "+1 (555) 123-4567",
-  telegram: "https://t.me/mugencodes",
-  whatsapp: "https://wa.me/15551234567",
-  linkedin: "https://linkedin.com/company/mugencodes"
+  phone: "(+91) 9163762717",
+  telegram: "https://t.me/thehivesoul",
+  whatsapp: "https://wa.me/919163762717",
+  linkedin: "https://www.linkedin.com/in/jay-bhaduri"
 };
