@@ -27,6 +27,22 @@ export default function SignInClient() {
     setLoading(true);
 
     try {
+      // First, check if email exists
+      const emailCheckResponse = await fetch("/api/auth/check-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const emailCheck = await emailCheckResponse.json();
+
+      if (!emailCheck.exists) {
+        setError("Invalid email address. Please check your email and try again.");
+        setLoading(false);
+        return;
+      }
+
+      // If email exists, try to sign in
       const result = await signIn("credentials", {
         email,
         password,
@@ -34,7 +50,7 @@ export default function SignInClient() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password");
+        setError("Invalid password. Please check your password and try again.");
       } else {
         router.push("/projects/new");
         router.refresh();

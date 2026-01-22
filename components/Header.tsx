@@ -7,24 +7,12 @@ import { signOut } from "next-auth/react";
 
 import { siteConfig } from "@/lib/site";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { DropdownNav } from "@/components/DropdownNav";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/team", label: "Team" },
   { href: "/services", label: "Services" },
-  {
-    type: "dropdown",
-    label: "Projects",
-    items: [
-      { href: "/projects/new", label: "New Project" },
-      { href: "/projects/application-in-progress", label: "Application in Progress" },
-      { href: "/projects/under-agreement", label: "Discussion in Progress" },
-      { href: "/projects/ongoing", label: "Development in Progress" },
-      { href: "/projects/successful", label: "Approved" },
-      { href: "/projects/failed", label: "Failed" },
-    ],
-  },
+  { href: "/projects", label: "My Projects" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -47,23 +35,23 @@ export const Header = () => {
           </span>
         </Link>
         <nav className="flex flex-wrap items-center gap-4 text-xs text-ink/70 md:gap-6 md:text-sm dark:text-white/70">
-          {navLinks.map((link, index) =>
-            (link as any).type === "dropdown" ? (
-              <DropdownNav
-                key={index}
-                label={link.label}
-                items={(link as any).items}
-              />
-            ) : (
+          {navLinks
+            .filter((link) => {
+              // Hide "My Projects" for admins (they use Admin dashboard instead)
+              if (link.href === "/projects" && isAdmin) {
+                return false;
+              }
+              return true;
+            })
+            .map((link, index) => (
               <Link
-                key={(link as any).href}
-                href={(link as any).href}
+                key={link.href}
+                href={link.href}
                 className="hover:text-ink dark:hover:text-white"
               >
-                {(link as any).label}
+                {link.label}
               </Link>
-            )
-          )}
+            ))}
           {isAdmin && (
             <Link
               href="/admin"

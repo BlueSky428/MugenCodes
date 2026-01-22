@@ -15,7 +15,7 @@ export default function SuccessfulPage() {
 
   const fetchProjects = useCallback(async () => {
     try {
-      const response = await fetch("/api/projects?status=APPROVED", {
+      const response = await fetch("/api/projects?status=SUCCEEDED", {
         cache: "no-store",
       });
       const data = await response.json();
@@ -71,8 +71,8 @@ export default function SuccessfulPage() {
   return (
     <ProjectsList
       projects={projects}
-      title="Approved Projects"
-      emptyMessage="No approved projects yet."
+      title="Succeeded Projects"
+      emptyMessage="No succeeded projects yet."
     />
   );
 }

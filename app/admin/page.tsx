@@ -41,7 +41,7 @@ export default function AdminPage() {
     applicationInProgress: 0,
     discussionInProgress: 0,
     developmentInProgress: 0,
-    approved: 0,
+    succeeded: 0,
     failed: 0,
     pendingFeasibility: 0,
     pendingNegotiation: 0,
@@ -68,7 +68,7 @@ export default function AdminPage() {
         applicationInProgress: allProjects.filter((p: Project) => p.status === "APPLICATION_IN_PROGRESS").length,
         discussionInProgress: allProjects.filter((p: Project) => p.status === "DISCUSSION_IN_PROGRESS").length,
         developmentInProgress: allProjects.filter((p: Project) => p.status === "DEVELOPMENT_IN_PROGRESS").length,
-        approved: allProjects.filter((p: Project) => p.status === "APPROVED").length,
+        succeeded: allProjects.filter((p: Project) => p.status === "SUCCEEDED").length,
         failed: allProjects.filter((p: Project) => p.status === "FAILED").length,
         pendingFeasibility: allProjects.filter((p: Project) => p.feasibilityStatus === "PENDING").length,
         pendingNegotiation: allProjects.filter((p: Project) => p.negotiationPending === "TEAM").length,
@@ -192,8 +192,8 @@ export default function AdminPage() {
               <div className="text-xs text-ink/70 dark:text-white/70 mt-1">Development in Progress</div>
             </div>
             <div className="rounded-2xl border border-ink/10 bg-white p-4 text-center dark:border-white/10 dark:bg-nightSoft">
-              <div className="text-2xl font-semibold text-ink dark:text-white">{stats.approved}</div>
-              <div className="text-xs text-ink/70 dark:text-white/70 mt-1">Approved</div>
+              <div className="text-2xl font-semibold text-ink dark:text-white">{stats.succeeded}</div>
+              <div className="text-xs text-ink/70 dark:text-white/70 mt-1">Succeeded</div>
             </div>
             <div className="rounded-2xl border border-ink/10 bg-white p-4 text-center dark:border-white/10 dark:bg-nightSoft">
               <div className="text-2xl font-semibold text-ink dark:text-white">{stats.failed}</div>
@@ -274,14 +274,14 @@ export default function AdminPage() {
               Development in Progress
             </button>
             <button
-              onClick={() => setFilter("APPROVED")}
+              onClick={() => setFilter("SUCCEEDED")}
               className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                filter === "APPROVED"
+                filter === "SUCCEEDED"
                   ? "bg-accent text-white"
                   : "border border-ink/20 bg-white text-ink hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
               }`}
             >
-              Approved
+              Succeeded
             </button>
             <button
               onClick={() => setFilter("FAILED")}

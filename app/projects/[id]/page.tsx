@@ -295,7 +295,7 @@ export default function ProjectDetailPage() {
   const isAdmin = session?.user?.role === "ADMIN" || session?.user?.role === "DEVELOPER";
   const isClient = session?.user?.role === "CLIENT";
   const canApprove = isClient && project.status === "DISCUSSION_IN_PROGRESS" && project.developmentPlan && project.negotiationPending === "CLIENT";
-  const canReview = isClient && project.status === "APPROVED" && !project.review;
+  const canReview = isClient && project.status === "SUCCEEDED" && !project.review;
   const canCancel = (isClient || isAdmin) && project.status === "DEVELOPMENT_IN_PROGRESS";
   const canRespondToNegotiation = isAdmin && project.status === "DISCUSSION_IN_PROGRESS" && project.negotiationPending === "TEAM";
   const canReviewFeasibility = isAdmin && project.feasibilityStatus === "PENDING";

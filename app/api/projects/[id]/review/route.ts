@@ -37,7 +37,7 @@ export async function POST(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    if (project.status !== "APPROVED") {
+    if (project.status !== "SUCCEEDED") {
       return NextResponse.json(
         { error: "Project must be completed before submitting a review" },
         { status: 400 }

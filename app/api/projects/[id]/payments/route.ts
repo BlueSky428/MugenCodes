@@ -74,7 +74,7 @@ export async function POST(
 
     // If all milestones are paid, mark project as ready for completion
     if (allMilestonesPaid) {
-      updateData.status = "APPROVED";
+      updateData.status = "SUCCEEDED";
     }
 
     const updatedProject = await prisma.project.update({
