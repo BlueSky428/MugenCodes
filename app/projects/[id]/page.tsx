@@ -7,6 +7,7 @@ import { Section } from "@/components/Section";
 import Link from "next/link";
 import { ProjectChat } from "@/components/ProjectChat";
 import { useSocket } from "@/lib/useSocket";
+import { formatProjectStatus, formatFeasibilityStatus, feasibilityStatusColors } from "@/lib/status";
 
 type Project = {
   id: string;
@@ -66,6 +67,11 @@ export default function ProjectDetailPage() {
   const [updateTitle, setUpdateTitle] = useState("");
   const [updateContent, setUpdateContent] = useState("");
   const [submittingUpdate, setSubmittingUpdate] = useState(false);
+  const [actionError, setActionError] = useState("");
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
+  const [submittingCancel, setSubmittingCancel] = useState(false);
+  const [showMilestonePaidModal, setShowMilestonePaidModal] = useState<string | null>(null);
 
   const fetchProject = useCallback(async () => {
     setLoading(true);
@@ -181,10 +187,11 @@ export default function ProjectDetailPage() {
 
   const handleFeasibilityReview = async () => {
     if (feasibilityStatus === "REJECTED" && !feasibilityReason.trim()) {
-      alert("Please provide a reason for rejection");
+      setActionError("Please provide a reason for rejection");
       return;
     }
 
+    setActionError("");
     setSubmittingFeasibility(true);
     try {
       const response = await fetch(`/api/projects/${params.id}/feasibility`, {
@@ -199,17 +206,18 @@ export default function ProjectDetailPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.error || "Failed to review feasibility");
+        setActionError(data.error || "Failed to review feasibility. Please try again.");
         return;
       }
 
       setShowFeasibilityReview(false);
       setFeasibilityReason("");
+      setActionError("");
       // Refresh project data immediately
       await fetchProject();
       router.refresh();
     } catch (err) {
-      alert("An error occurred");
+      setActionError("An error occurred. Please try again.");
     } finally {
       setSubmittingFeasibility(false);
     }
@@ -217,10 +225,11 @@ export default function ProjectDetailPage() {
 
   const handlePostUpdate = async () => {
     if (!updateTitle.trim() || !updateContent.trim()) {
-      alert("Please provide both title and content");
+      setActionError("Please provide both title and content");
       return;
     }
 
+    setActionError("");
     setSubmittingUpdate(true);
     try {
       const response = await fetch(`/api/projects/${params.id}/updates`, {
@@ -235,33 +244,37 @@ export default function ProjectDetailPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.error || "Failed to post update");
+        setActionError(data.error || "Failed to post update. Please try again.");
         return;
       }
 
       setShowUpdateForm(false);
       setUpdateTitle("");
       setUpdateContent("");
+      setActionError("");
       router.refresh();
       fetchProject();
     } catch (err) {
-      alert("An error occurred");
+      setActionError("An error occurred. Please try again.");
     } finally {
       setSubmittingUpdate(false);
     }
   };
 
   const handleMarkMilestonePaid = async (milestoneId: string) => {
-    if (!confirm("Mark this milestone as paid?")) {
-      return;
-    }
+    setShowMilestonePaidModal(milestoneId);
+  };
 
+  const confirmMarkMilestonePaid = async () => {
+    if (!showMilestonePaidModal) return;
+
+    setActionError("");
     try {
       const response = await fetch(`/api/projects/${params.id}/payments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          milestoneId,
+          milestoneId: showMilestonePaidModal,
           paymentConfirmed: true,
         }),
       });
@@ -269,19 +282,29 @@ export default function ProjectDetailPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.error || "Failed to mark milestone as paid");
+        setActionError(data.error || "Failed to mark milestone as paid. Please try again.");
+        setShowMilestonePaidModal(null);
         return;
       }
 
+      setShowMilestonePaidModal(null);
+      setActionError("");
       router.refresh();
       fetchProject();
     } catch (err) {
-      alert("An error occurred");
+      setActionError("An error occurred. Please try again.");
+      setShowMilestonePaidModal(null);
     }
   };
 
   if (sessionStatus === "loading" || loading) {
-    return <Section title="Loading...">Please wait...</Section>;
+    return (
+      <Section eyebrow="Project" title="Loading">
+        <div className="card card-dark p-8">
+          <p className="muted">Loading project…</p>
+        </div>
+      </Section>
+    );
   }
 
   if (error || !project) {
@@ -304,18 +327,33 @@ export default function ProjectDetailPage() {
 
   return (
     <>
-      <Section title={project.name}>
+      <Section eyebrow="Project" title={project.name}>
         <div className="space-y-8">
+          {/* Action Error Display */}
+          {actionError && (
+            <div className="rounded-2xl bg-red-50 border border-red-200 p-4 text-sm text-red-700 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+              <div className="flex items-start justify-between">
+                <p>{actionError}</p>
+                <button
+                  onClick={() => setActionError("")}
+                  className="ml-4 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                  aria-label="Dismiss error"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+          )}
           {/* Project Info */}
-          <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
+          <div className="card card-dark p-8">
             <div className="grid gap-6 md:grid-cols-2">
               <div>
                 <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
                   Project Details
                 </h3>
-                <div className="space-y-2 text-sm text-ink/70 dark:text-white/70">
+                <div className="space-y-2 text-sm muted">
                   <p>
-                    <span className="font-medium">Status:</span> {project.status}
+                    <span className="font-medium">Status:</span> {formatProjectStatus(project.status)}
                   </p>
                   <p>
                     <span className="font-medium">Cost:</span> ${project.developmentCost.toLocaleString()}
@@ -340,9 +378,14 @@ export default function ProjectDetailPage() {
                   <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
                     Feasibility Status
                   </h3>
-                  <div className="space-y-2 text-sm text-ink/70 dark:text-white/70">
+                  <div className="space-y-2 text-sm muted">
                     <p>
-                      <span className="font-medium">Status:</span> {project.feasibilityStatus}
+                      <span className="font-medium">Status:</span>{" "}
+                      <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                        feasibilityStatusColors[project.feasibilityStatus] || ""
+                      }`}>
+                        {formatFeasibilityStatus(project.feasibilityStatus)}
+                      </span>
                     </p>
                     {project.feasibilityReason && (
                       <p>
@@ -353,7 +396,7 @@ export default function ProjectDetailPage() {
                   {canReviewFeasibility && !showFeasibilityReview && (
                     <button
                       onClick={() => setShowFeasibilityReview(true)}
-                      className="mt-4 inline-flex items-center justify-center rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-600"
+                      className="mt-4 btn px-4 py-2 bg-blue-500 text-white hover:bg-blue-600"
                     >
                       Review Feasibility
                     </button>
@@ -364,11 +407,11 @@ export default function ProjectDetailPage() {
           </div>
 
           {/* Requirements */}
-          <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
+          <div className="card card-dark p-8">
             <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
               Project Requirements
             </h3>
-            <p className="text-base text-ink/70 dark:text-white/70 leading-relaxed whitespace-pre-wrap">
+            <p className="text-base muted leading-relaxed whitespace-pre-wrap">
               {project.requirements}
             </p>
           </div>
@@ -459,11 +502,11 @@ export default function ProjectDetailPage() {
 
           {/* Development Plan */}
           {project.developmentPlan && (
-            <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
+            <div className="card card-dark p-8">
               <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
                 Development Plan
               </h3>
-              <p className="text-base text-ink/70 dark:text-white/70 leading-relaxed whitespace-pre-wrap">
+              <p className="text-base muted leading-relaxed whitespace-pre-wrap">
                 {project.developmentPlan}
               </p>
             </div>
@@ -471,7 +514,7 @@ export default function ProjectDetailPage() {
 
           {/* Milestones */}
           {project.milestones.length > 0 && (
-            <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
+            <div className="card card-dark p-8">
               <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
                 Milestones
               </h3>
@@ -496,10 +539,12 @@ export default function ProjectDetailPage() {
                         className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
                           milestone.status === "PAID"
                             ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+                            : milestone.status === "OVERDUE"
+                            ? "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
                             : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400"
                         }`}
                       >
-                        {milestone.status}
+                        {milestone.status === "PAID" ? "Paid" : milestone.status === "OVERDUE" ? "Overdue" : "Pending"}
                       </span>
                     </div>
                     <div className="flex items-center justify-between mt-4 text-sm text-ink/70 dark:text-white/70">
@@ -514,7 +559,7 @@ export default function ProjectDetailPage() {
                     {isAdmin && milestone.status !== "PAID" && project.status === "DEVELOPMENT_IN_PROGRESS" && (
                       <button
                         onClick={() => handleMarkMilestonePaid(milestone.id)}
-                        className="mt-3 inline-flex items-center justify-center rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-600"
+                        className="mt-3 btn px-4 py-2 bg-green-500 text-white hover:bg-green-600"
                       >
                         Mark as Paid
                       </button>
@@ -526,7 +571,7 @@ export default function ProjectDetailPage() {
           )}
 
           {/* Project Updates */}
-          <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
+          <div className="card card-dark p-8">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-ink dark:text-white">
                 Development Updates
@@ -534,14 +579,14 @@ export default function ProjectDetailPage() {
               {canPostUpdate && !showUpdateForm && (
                 <button
                   onClick={() => setShowUpdateForm(true)}
-                  className="inline-flex items-center justify-center rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+                  className="btn btn-primary px-4 py-2"
                 >
                   Post Update
                 </button>
               )}
             </div>
             {showUpdateForm && (
-              <div className="mb-6 rounded-2xl border border-accent/20 bg-accent/5 p-6 dark:bg-accent/10">
+              <div className="mb-6 rounded-lg border border-gray-300 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-900">
                 <h4 className="text-base font-semibold text-ink dark:text-white mb-4">
                   Create New Update
                 </h4>
@@ -554,7 +599,7 @@ export default function ProjectDetailPage() {
                       type="text"
                       value={updateTitle}
                       onChange={(e) => setUpdateTitle(e.target.value)}
-                      className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-white/20 dark:bg-night dark:text-white"
+                      className="input"
                       placeholder="Update title..."
                     />
                   </div>
@@ -566,7 +611,7 @@ export default function ProjectDetailPage() {
                       value={updateContent}
                       onChange={(e) => setUpdateContent(e.target.value)}
                       rows={5}
-                      className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-white/20 dark:bg-night dark:text-white"
+                      className="textarea"
                       placeholder="Describe the development progress..."
                     />
                   </div>
@@ -574,7 +619,7 @@ export default function ProjectDetailPage() {
                     <button
                       onClick={handlePostUpdate}
                       disabled={submittingUpdate}
-                      className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+                      className="btn btn-primary px-6 py-3 text-base rounded-2xl"
                     >
                       {submittingUpdate ? "Posting..." : "Post Update"}
                     </button>
@@ -585,7 +630,7 @@ export default function ProjectDetailPage() {
                         setUpdateContent("");
                       }}
                       disabled={submittingUpdate}
-                      className="inline-flex items-center justify-center rounded-full border border-ink/20 bg-white px-6 py-3 text-base font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white"
+                      className="btn btn-secondary px-6 py-3 text-base rounded-2xl"
                     >
                       Cancel
                     </button>
@@ -623,7 +668,7 @@ export default function ProjectDetailPage() {
 
           {/* Review */}
           {project.review && (
-            <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
+            <div className="card card-dark p-8">
               <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
                 Client Review
               </h3>
@@ -709,41 +754,20 @@ export default function ProjectDetailPage() {
             {canApprove && (
               <Link
                 href={`/projects/${project.id}/approve`}
-                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90"
+                className="inline-flex items-center justify-center rounded-lg bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100"
               >
                 Respond to Milestone Proposal
               </Link>
             )}
             {canCancel && (
-              <button
-                onClick={async () => {
-                  const reason = prompt("Please provide a reason for cancelling this project:");
-                  if (!reason || !reason.trim()) {
-                    return;
-                  }
-                  if (!confirm("Are you sure you want to cancel this project? This action cannot be undone.")) {
-                    return;
-                  }
-                  try {
-                    const response = await fetch(`/api/projects/${project.id}/fail`, {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ reason: reason.trim() }),
-                    });
-                    if (response.ok) {
-                      router.refresh();
-                    } else {
-                      const data = await response.json();
-                      alert(data.error || "Failed to cancel project");
-                    }
-                  } catch (err) {
-                    alert("An error occurred");
-                  }
-                }}
-                className="inline-flex items-center justify-center rounded-full border border-red-300 bg-red-50 px-6 py-3 text-base font-semibold text-red-700 transition hover:bg-red-100 dark:border-red-700 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
-              >
-                Cancel Project
-              </button>
+              <>
+                <button
+                  onClick={() => setShowCancelModal(true)}
+                  className="inline-flex items-center justify-center rounded-full border border-red-300 bg-red-50 px-6 py-3 text-base font-semibold text-red-700 transition hover:bg-red-100 dark:border-red-700 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
+                >
+                  Cancel Project
+                </button>
+              </>
             )}
             {canReview && (
               <Link
@@ -754,6 +778,122 @@ export default function ProjectDetailPage() {
               </Link>
             )}
           </div>
+
+          {/* Cancel Project Modal */}
+          {showCancelModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setShowCancelModal(false)}>
+              <div className="w-full max-w-md card card-dark p-8" onClick={(e) => e.stopPropagation()}>
+                <h3 className="text-xl font-semibold text-ink dark:text-white mb-4">
+                  Cancel Project
+                </h3>
+                <p className="text-sm text-ink/70 dark:text-white/70 mb-4">
+                  Are you sure you want to cancel this project? This action cannot be undone.
+                </p>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-ink dark:text-white mb-2">
+                      Reason for Cancellation <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      value={cancelReason}
+                      onChange={(e) => setCancelReason(e.target.value)}
+                      rows={4}
+                      className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 dark:border-white/20 dark:bg-night dark:text-white"
+                      placeholder="Please provide a reason for cancelling this project..."
+                    />
+                  </div>
+                  {actionError && (
+                    <div className="rounded-2xl bg-red-50 border border-red-200 p-3 text-sm text-red-700 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+                      {actionError}
+                    </div>
+                  )}
+                  <div className="flex gap-3">
+                    <button
+                      onClick={async () => {
+                        if (!cancelReason.trim()) {
+                          setActionError("Please provide a reason for cancellation");
+                          return;
+                        }
+                        setActionError("");
+                        setSubmittingCancel(true);
+                        try {
+                          const response = await fetch(`/api/projects/${project.id}/fail`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ reason: cancelReason.trim() }),
+                          });
+                          if (response.ok) {
+                            setShowCancelModal(false);
+                            setCancelReason("");
+                            router.refresh();
+                            fetchProject();
+                          } else {
+                            const data = await response.json();
+                            setActionError(data.error || "Failed to cancel project. Please try again.");
+                          }
+                        } catch (err) {
+                          setActionError("An error occurred. Please try again.");
+                        } finally {
+                          setSubmittingCancel(false);
+                        }
+                      }}
+                      disabled={submittingCancel || !cancelReason.trim()}
+                      className="flex-1 inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-3 text-base font-semibold text-white transition hover:bg-red-700 disabled:opacity-50"
+                    >
+                      {submittingCancel ? "Cancelling..." : "Confirm Cancellation"}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowCancelModal(false);
+                        setCancelReason("");
+                        setActionError("");
+                      }}
+                      disabled={submittingCancel}
+                      className="flex-1 inline-flex items-center justify-center rounded-full border border-ink/20 bg-white px-6 py-3 text-base font-semibold text-ink transition hover:border-ink/40 disabled:opacity-50 dark:border-white/20 dark:text-white dark:hover:border-white/40"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Mark Milestone Paid Modal */}
+          {showMilestonePaidModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setShowMilestonePaidModal(null)}>
+              <div className="w-full max-w-md card card-dark p-8" onClick={(e) => e.stopPropagation()}>
+                <h3 className="text-xl font-semibold text-ink dark:text-white mb-4">
+                  Mark Milestone as Paid
+                </h3>
+                <p className="text-sm text-ink/70 dark:text-white/70 mb-6">
+                  Are you sure you want to mark this milestone as paid? This action will update the project status.
+                </p>
+                {actionError && (
+                  <div className="rounded-2xl bg-red-50 border border-red-200 p-3 text-sm text-red-700 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400 mb-4">
+                    {actionError}
+                  </div>
+                )}
+                <div className="flex gap-3">
+                  <button
+                    onClick={confirmMarkMilestonePaid}
+                    className="flex-1 inline-flex items-center justify-center rounded-full bg-green-600 px-6 py-3 text-base font-semibold text-white transition hover:bg-green-700"
+                  >
+                    Confirm Payment
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowMilestonePaidModal(null);
+                      setActionError("");
+                    }}
+                    className="flex-1 inline-flex items-center justify-center rounded-full border border-ink/20 bg-white px-6 py-3 text-base font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:text-white dark:hover:border-white/40"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </Section>
     </>

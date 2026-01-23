@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ProjectsList } from "@/components/ProjectsList";
 import { useGlobalSocket } from "@/lib/useGlobalSocket";
+import { Section } from "@/components/Section";
 
 export default function UnderAgreementPage() {
   const router = useRouter();
@@ -65,7 +66,13 @@ export default function UnderAgreementPage() {
   }, [status, connected, fetchProjects]);
 
   if (status === "loading" || loading) {
-    return <div>Loading...</div>;
+    return (
+      <Section eyebrow="Projects" title="Discussion in progress">
+        <div className="card card-dark p-8">
+          <p className="muted">Loading…</p>
+        </div>
+      </Section>
+    );
   }
 
   return (

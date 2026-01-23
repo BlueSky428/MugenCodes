@@ -116,40 +116,56 @@ export default function ProjectsPage() {
   }, [status, connected, fetchProjects]);
 
   if (status === "loading" || loading) {
-    return <Section title="Loading...">Please wait...</Section>;
+    return (
+      <Section eyebrow="Projects" title="My projects">
+        <div className="card card-dark p-8">
+          <p className="muted">Loading your projects…</p>
+        </div>
+      </Section>
+    );
   }
 
   return (
     <>
-      <Section title="My Projects">
+      <Section eyebrow="Projects" title="My projects">
         <div className="space-y-8">
           {/* Statistics Cards */}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-            <div className="rounded-3xl border border-ink/10 bg-white p-6 shadow-card dark:border-white/10 dark:bg-nightSoft">
-              <div className="text-sm text-ink/70 dark:text-white/70">Total Projects</div>
+            <div className="card card-dark p-6">
+              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-ink/55 dark:text-white/50">
+                Total
+              </div>
               <div className="mt-2 text-3xl font-semibold text-ink dark:text-white">{stats.total}</div>
             </div>
-            <div className="rounded-3xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
-              <div className="text-sm text-blue-700 dark:text-blue-400">Application in Progress</div>
-              <div className="mt-2 text-3xl font-semibold text-blue-800 dark:text-blue-300">
+            <div className="card card-dark p-6">
+              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-600 dark:text-gray-400">
+                Application
+              </div>
+              <div className="mt-2 text-3xl font-semibold text-black dark:text-white">
                 {stats.applicationInProgress}
               </div>
             </div>
-            <div className="rounded-3xl border border-yellow-200 bg-yellow-50 p-6 dark:border-yellow-800 dark:bg-yellow-900/20">
-              <div className="text-sm text-yellow-700 dark:text-yellow-400">Discussion in Progress</div>
-              <div className="mt-2 text-3xl font-semibold text-yellow-800 dark:text-yellow-300">
+            <div className="card card-dark p-6">
+              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-600 dark:text-gray-400">
+                Discussion
+              </div>
+              <div className="mt-2 text-3xl font-semibold text-black dark:text-white">
                 {stats.discussionInProgress}
               </div>
             </div>
-            <div className="rounded-3xl border border-green-200 bg-green-50 p-6 dark:border-green-800 dark:bg-green-900/20">
-              <div className="text-sm text-green-700 dark:text-green-400">Development in Progress</div>
-              <div className="mt-2 text-3xl font-semibold text-green-800 dark:text-green-300">
+            <div className="card card-dark p-6">
+              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-600 dark:text-gray-400">
+                Development
+              </div>
+              <div className="mt-2 text-3xl font-semibold text-black dark:text-white">
                 {stats.developmentInProgress}
               </div>
             </div>
-            <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-6 dark:border-emerald-800 dark:bg-emerald-900/20">
-              <div className="text-sm text-emerald-700 dark:text-emerald-400">Succeeded</div>
-              <div className="mt-2 text-3xl font-semibold text-emerald-800 dark:text-emerald-300">
+            <div className="card card-dark p-6">
+              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-600 dark:text-gray-400">
+                Succeeded
+              </div>
+              <div className="mt-2 text-3xl font-semibold text-black dark:text-white">
                 {stats.succeeded}
               </div>
             </div>
@@ -157,23 +173,23 @@ export default function ProjectsPage() {
 
           {/* Status Breakdown */}
           <div className="grid gap-4 md:grid-cols-5">
-            <div className="rounded-2xl border border-ink/10 bg-white p-4 text-center dark:border-white/10 dark:bg-nightSoft">
+            <div className="card card-dark p-4 text-center">
               <div className="text-2xl font-semibold text-ink dark:text-white">{stats.applicationInProgress}</div>
               <div className="text-xs text-ink/70 dark:text-white/70 mt-1">Application in Progress</div>
             </div>
-            <div className="rounded-2xl border border-ink/10 bg-white p-4 text-center dark:border-white/10 dark:bg-nightSoft">
+            <div className="card card-dark p-4 text-center">
               <div className="text-2xl font-semibold text-ink dark:text-white">{stats.discussionInProgress}</div>
               <div className="text-xs text-ink/70 dark:text-white/70 mt-1">Discussion in Progress</div>
             </div>
-            <div className="rounded-2xl border border-ink/10 bg-white p-4 text-center dark:border-white/10 dark:bg-nightSoft">
+            <div className="card card-dark p-4 text-center">
               <div className="text-2xl font-semibold text-ink dark:text-white">{stats.developmentInProgress}</div>
               <div className="text-xs text-ink/70 dark:text-white/70 mt-1">Development in Progress</div>
             </div>
-            <div className="rounded-2xl border border-ink/10 bg-white p-4 text-center dark:border-white/10 dark:bg-nightSoft">
+            <div className="card card-dark p-4 text-center">
               <div className="text-2xl font-semibold text-ink dark:text-white">{stats.succeeded}</div>
               <div className="text-xs text-ink/70 dark:text-white/70 mt-1">Succeeded</div>
             </div>
-            <div className="rounded-2xl border border-ink/10 bg-white p-4 text-center dark:border-white/10 dark:bg-nightSoft">
+            <div className="card card-dark p-4 text-center">
               <div className="text-2xl font-semibold text-ink dark:text-white">{stats.failed}</div>
               <div className="text-xs text-ink/70 dark:text-white/70 mt-1">Failed</div>
             </div>
@@ -183,67 +199,67 @@ export default function ProjectsPage() {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setFilter("all")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+              className={`btn px-4 py-2 ${
                 filter === "all"
-                  ? "bg-accent text-white"
-                  : "border border-ink/20 bg-white text-ink hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                  ? "btn-primary"
+                  : "btn-secondary"
               }`}
             >
               All Projects
             </button>
             <button
               onClick={() => setFilter("APPLICATION_IN_PROGRESS")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+              className={`btn px-4 py-2 ${
                 filter === "APPLICATION_IN_PROGRESS"
-                  ? "bg-accent text-white"
-                  : "border border-ink/20 bg-white text-ink hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                  ? "btn-primary"
+                  : "btn-secondary"
               }`}
             >
               Application in Progress
             </button>
             <button
               onClick={() => setFilter("DISCUSSION_IN_PROGRESS")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+              className={`btn px-4 py-2 ${
                 filter === "DISCUSSION_IN_PROGRESS"
-                  ? "bg-accent text-white"
-                  : "border border-ink/20 bg-white text-ink hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                  ? "btn-primary"
+                  : "btn-secondary"
               }`}
             >
               Discussion in Progress
             </button>
             <button
               onClick={() => setFilter("DEVELOPMENT_IN_PROGRESS")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+              className={`btn px-4 py-2 ${
                 filter === "DEVELOPMENT_IN_PROGRESS"
-                  ? "bg-accent text-white"
-                  : "border border-ink/20 bg-white text-ink hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                  ? "btn-primary"
+                  : "btn-secondary"
               }`}
             >
               Development in Progress
             </button>
             <button
               onClick={() => setFilter("SUCCEEDED")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+              className={`btn px-4 py-2 ${
                 filter === "SUCCEEDED"
-                  ? "bg-accent text-white"
-                  : "border border-ink/20 bg-white text-ink hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                  ? "btn-primary"
+                  : "btn-secondary"
               }`}
             >
               Succeeded
             </button>
             <button
               onClick={() => setFilter("FAILED")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+              className={`btn px-4 py-2 ${
                 filter === "FAILED"
-                  ? "bg-accent text-white"
-                  : "border border-ink/20 bg-white text-ink hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                  ? "btn-primary"
+                  : "btn-secondary"
               }`}
             >
               Failed
             </button>
             <Link
               href="/projects/new"
-              className="rounded-full border border-accent bg-accent px-4 py-2 text-sm font-medium text-white transition hover:bg-accent/90"
+              className="btn btn-primary px-4 py-2"
             >
               + New Project
             </Link>
@@ -251,15 +267,15 @@ export default function ProjectsPage() {
 
           {/* Error Message */}
           {error && (
-            <div className="rounded-2xl bg-red-50 border border-red-200 p-4 text-sm text-red-700 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+            <div className="rounded-lg bg-gray-50 border border-gray-300 p-4 text-sm text-gray-900 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100">
               {error}
             </div>
           )}
 
           {/* Projects List */}
           {projects.length === 0 && !error ? (
-            <div className="rounded-3xl border border-ink/10 bg-white p-12 text-center dark:border-white/10 dark:bg-nightSoft">
-              <p className="text-ink/70 dark:text-white/70">No projects found for this filter.</p>
+            <div className="card card-dark p-12 text-center">
+              <p className="muted">No projects found for this filter.</p>
             </div>
           ) : projects.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { UnreadMessageBadge } from "@/components/UnreadMessageBadge";
+import { formatProjectStatus, projectStatusColors } from "@/lib/status";
 
 type Project = {
   id: string;
@@ -23,63 +24,73 @@ type ProjectCardProps = {
   project: Project;
 };
 
-const statusColors: Record<string, string> = {
-  APPLICATION_IN_PROGRESS: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
-  DISCUSSION_IN_PROGRESS: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-  DEVELOPMENT_IN_PROGRESS: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-  SUCCEEDED: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-400",
-  FAILED: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
-};
-
-const statusLabels: Record<string, string> = {
-  APPLICATION_IN_PROGRESS: "Application in progress",
-  DISCUSSION_IN_PROGRESS: "Discussion in progress",
-  DEVELOPMENT_IN_PROGRESS: "Development in progress",
-  SUCCEEDED: "Succeeded",
-  FAILED: "Failed",
-};
-
 export function ProjectCard({ project }: ProjectCardProps) {
   const paidMilestones = project.milestones?.filter((m) => m.status === "PAID").length || 0;
   const totalMilestones = project.milestones?.length || 0;
 
   return (
-    <Link href={`/projects/${project.id}`}>
-      <div className="rounded-3xl border border-ink/10 bg-white p-6 shadow-card transition hover:shadow-soft dark:border-white/10 dark:bg-nightSoft cursor-pointer">
+    <Link href={`/projects/${project.id}`} className="block group">
+      <div className="card card-dark card-hover cursor-pointer p-6 h-full animate-fade-in-up transition-all duration-300 group-hover:border-primary-200 dark:group-hover:border-primary-800">
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <h3 className="text-xl font-semibold text-ink dark:text-white">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <h3 className="text-xl font-semibold text-ink dark:text-white truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
               {project.name}
             </h3>
             <UnreadMessageBadge projectId={project.id} />
           </div>
           <span
-            className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
-              statusColors[project.status] || statusColors.APPLICATION_IN_PROGRESS
+            className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold transition-all duration-300 group-hover:scale-105 ${
+              projectStatusColors[project.status] || projectStatusColors.APPLICATION_IN_PROGRESS
             }`}
           >
-            {statusLabels[project.status] || project.status}
+            {formatProjectStatus(project.status)}
           </span>
         </div>
 
-        <div className="space-y-2 text-sm text-ink/70 dark:text-white/70">
-          <p>
-            <span className="font-medium">Cost:</span> ${project.developmentCost.toLocaleString()}
-          </p>
-          <p>
-            <span className="font-medium">Deadline:</span>{" "}
-            {new Date(project.deadline).toLocaleDateString()}
-          </p>
-          {project.client && (
+        <div className="space-y-3 text-sm muted">
+          <div className="flex items-center gap-2">
+            <svg className="w-4 h-4 text-primary-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             <p>
-              <span className="font-medium">Client:</span> {project.client.name}
+              <span className="font-semibold text-ink dark:text-white">Cost:</span> ${project.developmentCost.toLocaleString()}
             </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <svg className="w-4 h-4 text-primary-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <p>
+              <span className="font-semibold text-ink dark:text-white">Deadline:</span>{" "}
+              {new Date(project.deadline).toLocaleDateString()}
+            </p>
+          </div>
+          {project.client && (
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-primary-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <p>
+                <span className="font-semibold text-ink dark:text-white">Client:</span> {project.client.name}
+              </p>
+            </div>
           )}
           {totalMilestones > 0 && (
-            <p>
-              <span className="font-medium">Progress:</span> {paidMilestones}/{totalMilestones}{" "}
-              milestones completed
-            </p>
+            <div className="flex items-center gap-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+              <svg className="w-4 h-4 text-primary-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p>
+                <span className="font-semibold text-ink dark:text-white">Progress:</span> {paidMilestones}/{totalMilestones}{" "}
+                milestones completed
+              </p>
+              <div className="ml-auto flex-1 max-w-[100px] h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-primary rounded-full transition-all duration-500"
+                  style={{ width: `${(paidMilestones / totalMilestones) * 100}%` }}
+                ></div>
+              </div>
+            </div>
           )}
         </div>
       </div>

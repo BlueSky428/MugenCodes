@@ -95,13 +95,21 @@ export default function ApproveProjectPage() {
   };
 
   if (status === "loading" || loading) {
-    return <Section title="Loading...">Please wait...</Section>;
+    return (
+      <Section eyebrow="Projects" title="Approve project">
+        <div className="card card-dark p-8">
+          <p className="muted">Loading…</p>
+        </div>
+      </Section>
+    );
   }
 
   if (error || !project) {
     return (
-      <Section title="Error">
-        <p>{error || "Project not found"}</p>
+      <Section eyebrow="Projects" title="Error">
+        <div className="card card-dark p-8">
+          <p className="muted">{error || "Project not found"}</p>
+        </div>
       </Section>
     );
   }
@@ -110,23 +118,21 @@ export default function ApproveProjectPage() {
 
   return (
     <>
-      <Section title={`Approve Project: ${project.name}`}>
+      <Section eyebrow="Projects" title={`Approve project: ${project.name}`}>
         <div className="max-w-2xl mx-auto space-y-6">
-          <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
-            <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
-              Development Plan
-            </h3>
-            <p className="text-base text-ink/70 dark:text-white/70 leading-relaxed whitespace-pre-wrap">
+          <div className="card card-dark p-8">
+            <div className="badge mb-4">Plan</div>
+            <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">Development plan</h3>
+            <p className="text-base muted leading-relaxed whitespace-pre-wrap">
               {project.developmentPlan || "No development plan available."}
             </p>
           </div>
 
           {firstMilestone && (
-            <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
-              <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
-                Upfront Payment Required
-              </h3>
-              <div className="space-y-2 text-base text-ink/70 dark:text-white/70">
+            <div className="card card-dark p-8">
+              <div className="badge mb-4">Payment</div>
+              <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">Upfront payment required</h3>
+              <div className="space-y-2 text-base muted">
                 <p>
                   <span className="font-medium">Milestone:</span> {firstMilestone.name}
                 </p>
@@ -163,15 +169,13 @@ export default function ApproveProjectPage() {
           )}
 
           {showRenegotiate && (
-            <div className="rounded-3xl border border-ink/10 bg-white p-6 shadow-card dark:border-white/10 dark:bg-nightSoft">
-              <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
-                Request Re-negotiation
-              </h3>
+            <div className="card card-dark p-6">
+              <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">Request re-negotiation</h3>
               <textarea
                 value={negotiationMessage}
                 onChange={(e) => setNegotiationMessage(e.target.value)}
                 placeholder="Explain what changes you'd like to the milestone proposal..."
-                className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft min-h-[120px]"
+                className="textarea min-h-[120px]"
                 rows={5}
               />
             </div>
@@ -187,14 +191,14 @@ export default function ApproveProjectPage() {
             <button
               onClick={() => handleAction("approve")}
               disabled={submitting}
-              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+              className="btn btn-primary px-6 py-3 text-base rounded-2xl"
             >
               {submitting ? "Processing..." : "Approve & Make Payment"}
             </button>
             <button
               onClick={() => setShowRenegotiate(!showRenegotiate)}
               disabled={submitting}
-              className="inline-flex items-center justify-center rounded-full border border-ink/20 bg-white px-6 py-3 text-base font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:text-white dark:hover:border-white/40 disabled:opacity-50"
+              className="btn btn-secondary px-6 py-3 text-base rounded-2xl"
             >
               {showRenegotiate ? "Cancel Re-negotiation" : "Request Re-negotiation"}
             </button>
@@ -202,7 +206,7 @@ export default function ApproveProjectPage() {
               <button
                 onClick={() => handleAction("renegotiate")}
                 disabled={submitting || !negotiationMessage.trim()}
-                className="inline-flex items-center justify-center rounded-full bg-yellow-500 px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+                className="btn px-6 py-3 text-base rounded-2xl bg-yellow-500 text-white hover:opacity-90 disabled:opacity-50"
               >
                 {submitting ? "Sending..." : "Submit Re-negotiation Request"}
               </button>
@@ -210,14 +214,14 @@ export default function ApproveProjectPage() {
             <button
               onClick={() => handleAction("reject")}
               disabled={submitting}
-              className="inline-flex items-center justify-center rounded-full border border-red-300 bg-red-50 px-6 py-3 text-base font-semibold text-red-700 transition hover:bg-red-100 dark:border-red-700 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30 disabled:opacity-50"
+              className="btn px-6 py-3 text-base rounded-2xl border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 dark:border-red-700 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30 disabled:opacity-50"
             >
               {submitting ? "Processing..." : "Reject & Cancel Project"}
             </button>
             <button
               onClick={() => router.back()}
               disabled={submitting}
-              className="inline-flex items-center justify-center rounded-full border border-ink/20 bg-white px-6 py-3 text-base font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:text-white dark:hover:border-white/40 disabled:opacity-50"
+              className="btn btn-ghost px-6 py-3 text-base rounded-2xl"
             >
               Back
             </button>

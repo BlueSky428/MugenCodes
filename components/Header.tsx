@@ -21,20 +21,24 @@ export const Header = () => {
   const isAdmin = session?.user?.role === "ADMIN" || session?.user?.role === "DEVELOPER";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-ink/10 bg-surface/90 backdrop-blur dark:border-white/10 dark:bg-night/90">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-2">
-        <Link href="/" aria-label={siteConfig.name} className="flex items-center">
-          <span className="relative flex h-12 w-12 items-center justify-center md:h-16 md:w-16">
+    <header className="sticky top-0 z-50 border-b border-gray-200/80 bg-white/80 backdrop-blur-xl dark:border-gray-800/80 dark:bg-black/80 animate-fade-in-down">
+      <div className="container-page flex items-center justify-between gap-6 py-4">
+        <Link 
+          href="/" 
+          aria-label={siteConfig.name} 
+          className="flex items-center group transition-transform duration-300 hover:scale-105"
+        >
+          <span className="relative flex h-10 w-10 items-center justify-center md:h-12 md:w-12">
             <Image
               src="/logo.png"
               alt={`${siteConfig.name} logo`}
               fill
-              className="object-contain flex flex-wrap mt-[10px]"
+              className="object-contain transition-transform duration-300 group-hover:scale-110"
               priority
             />
           </span>
         </Link>
-        <nav className="flex flex-wrap items-center gap-4 text-xs text-ink/70 md:gap-6 md:text-sm dark:text-white/70">
+        <nav className="hidden items-center gap-1 md:flex">
           {navLinks
             .filter((link) => {
               // Hide "My Projects" for admins (they use Admin dashboard instead)
@@ -47,15 +51,17 @@ export const Header = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-ink dark:hover:text-white"
+                className="relative rounded-xl px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gray-100 hover:text-black dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white group"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                {link.label}
+                <span className="relative z-10">{link.label}</span>
+                <span className="absolute inset-0 rounded-xl bg-primary-500/10 scale-0 group-hover:scale-100 transition-transform duration-300 origin-center"></span>
               </Link>
             ))}
           {isAdmin && (
             <Link
               href="/admin"
-              className="hover:text-ink dark:hover:text-white font-medium text-accent"
+              className="relative rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gradient-primary shadow-lg transition-all duration-300 hover:shadow-glow hover:scale-105"
             >
               Admin
             </Link>
@@ -64,20 +70,18 @@ export const Header = () => {
         <div className="flex items-center gap-3">
           <div className="hidden items-center gap-3 md:flex">
             {status === "loading" ? (
-              <span className="text-xs text-ink/50 dark:text-white/50">Checking session…</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 animate-pulse">Checking…</span>
             ) : session?.user ? (
               <>
-                <div className="text-right leading-tight">
-                  <div className="text-xs font-medium text-ink dark:text-white">
+                <div className="text-right leading-tight animate-fade-in">
+                  <div className="text-sm font-semibold text-black dark:text-white">
                     {session.user.name || session.user.email}
                   </div>
-                  <div className="text-[11px] text-ink/60 dark:text-white/60">
-                    {session.user.role}
-                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 uppercase">{session.user.role}</div>
                 </div>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="rounded-full border border-ink/20 bg-white px-3 py-1.5 text-xs font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                  className="btn btn-secondary text-sm"
                 >
                   Log out
                 </button>
@@ -85,7 +89,7 @@ export const Header = () => {
             ) : (
               <Link
                 href="/auth/signin"
-                className="rounded-full border border-ink/20 bg-white px-3 py-1.5 text-xs font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                className="btn btn-primary text-sm"
               >
                 Sign in
               </Link>

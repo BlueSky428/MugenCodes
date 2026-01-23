@@ -126,39 +126,37 @@ const serviceCategories: ServiceCategory[] = [
 export default function ServicesPage() {
   return (
     <>
-      <Section>
-        <div className="space-y-10">
+      <Section eyebrow="Services" title="What we build (and how we deliver)">
+        <div className="max-w-3xl">
+          <p className="muted text-lg">
+            Clean implementation, calm communication, and documented decisions. Pick a category below to see what we typically deliver.
+          </p>
+        </div>
+        <div className="mt-10 space-y-10">
           {serviceCategories.map((category) => (
             <div
               key={category.title}
               id={category.id}
-              className="space-y-6 rounded-3xl border border-ink/10 bg-white p-8 shadow-card transition hover:shadow-soft dark:border-white/10 dark:bg-nightSoft scroll-mt-24"
+              className="card card-dark card-hover scroll-mt-24 p-8"
             >
               <div className="space-y-2">
-                <h3 className="text-2xl font-semibold text-ink dark:text-white">
-                  {category.title}
-                </h3>
-                <p className="max-w-3xl text-ink/70 dark:text-white/70">
-                  {category.intro}
-                </p>
+                <div className="badge w-fit">Category</div>
+                <h3 className="text-2xl font-semibold text-ink dark:text-white">{category.title}</h3>
+                <p className="max-w-3xl muted">{category.intro}</p>
               </div>
 
               <div className="grid gap-6 md:grid-cols-2">
                 {category.items.map((item) => (
                   <div
                     key={item.title}
-                    className="rounded-2xl border border-ink/10 bg-surface p-6 shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-night"
+                    className="rounded-3xl border border-ink/10 bg-surface p-6 transition hover:shadow-soft dark:border-white/10 dark:bg-night"
                   >
-                    <h4 className="text-lg font-semibold text-ink dark:text-white">
-                      {item.title}
-                    </h4>
-                    <p className="mt-2 text-sm text-ink/70 dark:text-white/70">
-                      {item.body}
-                    </p>
-                    <ul className="mt-4 space-y-1.5 text-sm text-ink/70 dark:text-white/70">
+                    <h4 className="text-lg font-semibold text-ink dark:text-white">{item.title}</h4>
+                    <p className="mt-2 text-sm muted">{item.body}</p>
+                    <ul className="mt-4 space-y-2 text-sm muted">
                       {item.bullets.map((bullet) => (
                         <li key={bullet} className="flex items-start gap-2">
-                          <span className="mt-1 text-accent">•</span>
+                          <span className="mt-2 h-1.5 w-1.5 rounded-full bg-black dark:bg-white" />
                           <span>{bullet}</span>
                         </li>
                       ))}
@@ -171,8 +169,8 @@ export default function ServicesPage() {
         </div>
       </Section>
 
-      <Section title="Services we do not provide">
-        <div className="max-w-3xl space-y-4">
+      <Section eyebrow="Scope" title="Services we do not provide">
+        <div className="card card-dark p-8 max-w-3xl">
           <p>
             We do not accept projects without a clearly defined project owner on the client side. Effective decision-making authority is essential for successful project delivery.
           </p>

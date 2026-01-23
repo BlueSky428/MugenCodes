@@ -76,24 +76,32 @@ export default function ReviewProjectPage() {
   };
 
   if (status === "loading" || loading) {
-    return <Section title="Loading...">Please wait...</Section>;
+    return (
+      <Section eyebrow="Projects" title="Review project">
+        <div className="card card-dark p-8">
+          <p className="muted">Loading…</p>
+        </div>
+      </Section>
+    );
   }
 
   if (error || !project) {
     return (
-      <Section title="Error">
-        <p>{error || "Project not found"}</p>
+      <Section eyebrow="Projects" title="Error">
+        <div className="card card-dark p-8">
+          <p className="muted">{error || "Project not found"}</p>
+        </div>
       </Section>
     );
   }
 
   return (
     <>
-      <Section title={`Review Project: ${project.name}`}>
+      <Section eyebrow="Projects" title={`Review project: ${project.name}`}>
         <div className="max-w-2xl mx-auto">
           <form
             onSubmit={handleSubmit}
-            className="space-y-6 rounded-3xl border border-ink/10 bg-white p-8 shadow-card transition hover:shadow-soft dark:border-white/10 dark:bg-nightSoft"
+            className="card card-dark p-8 space-y-6"
           >
             {error && (
               <div className="rounded-2xl bg-red-50 border border-red-200 p-4 text-sm text-red-700 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
@@ -120,9 +128,7 @@ export default function ReviewProjectPage() {
                     ★
                   </button>
                 ))}
-                <span className="ml-2 text-sm text-ink/70 dark:text-white/70">
-                  {rating} out of 5
-                </span>
+                <span className="ml-2 text-sm muted">{rating} out of 5</span>
               </div>
             </div>
 
@@ -134,7 +140,7 @@ export default function ReviewProjectPage() {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 rows={6}
-                className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
+                className="textarea"
                 placeholder="Share your experience with this project..."
               />
             </div>
@@ -143,14 +149,14 @@ export default function ReviewProjectPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+                className="btn btn-primary px-6 py-3 text-base rounded-2xl"
               >
                 {submitting ? "Submitting..." : "Submit Review"}
               </button>
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="inline-flex items-center justify-center rounded-full border border-ink/20 bg-white px-6 py-3 text-base font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:text-white dark:hover:border-white/40"
+                className="btn btn-secondary px-6 py-3 text-base rounded-2xl"
               >
                 Cancel
               </button>

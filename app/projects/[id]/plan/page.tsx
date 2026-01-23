@@ -137,13 +137,21 @@ export default function PlanProjectPage() {
   };
 
   if (status === "loading" || loading) {
-    return <Section title="Loading...">Please wait...</Section>;
+    return (
+      <Section eyebrow="Projects" title="Development plan">
+        <div className="card card-dark p-8">
+          <p className="muted">Loading…</p>
+        </div>
+      </Section>
+    );
   }
 
   if (error && !project) {
     return (
-      <Section title="Error">
-        <p>{error}</p>
+      <Section eyebrow="Projects" title="Error">
+        <div className="card card-dark p-8">
+          <p className="muted">{error}</p>
+        </div>
       </Section>
     );
   }
@@ -153,7 +161,10 @@ export default function PlanProjectPage() {
 
   return (
     <>
-      <Section title={isNegotiationResponse ? "Respond to Re-negotiation Request" : `Create Development Plan: ${project?.name}`}>
+      <Section
+        eyebrow="Projects"
+        title={isNegotiationResponse ? "Respond to re-negotiation request" : `Create development plan: ${project?.name}`}
+      >
         <div className="max-w-4xl mx-auto space-y-6">
           {isNegotiationResponse && project?.negotiationMessage && (
             <div className="rounded-3xl border border-yellow-200 bg-yellow-50 p-6 dark:border-yellow-800 dark:bg-yellow-900/20">
@@ -166,25 +177,24 @@ export default function PlanProjectPage() {
             </div>
           )}
 
-          <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
-            <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
-              Development Plan
-            </h3>
+          <div className="card card-dark p-8">
+            <div className="badge mb-4">Plan</div>
+            <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">Development plan</h3>
             <textarea
               value={developmentPlan}
               onChange={(e) => setDevelopmentPlan(e.target.value)}
               placeholder="Describe the development plan, approach, timeline, and key deliverables..."
-              className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft min-h-[200px]"
+              className="textarea min-h-[200px]"
               rows={10}
             />
           </div>
 
-          <div className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card dark:border-white/10 dark:bg-nightSoft">
+          <div className="card card-dark p-8">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-ink dark:text-white">
                 Milestones
               </h3>
-              <div className="text-sm text-ink/70 dark:text-white/70">
+              <div className="text-sm muted">
                 Total: ${totalAmount.toLocaleString()} / ${project?.developmentCost.toLocaleString()}
               </div>
             </div>
@@ -214,7 +224,7 @@ export default function PlanProjectPage() {
                         value={milestone.name}
                         onChange={(e) => updateMilestone(index, "name", e.target.value)}
                         required
-                        className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-2 text-sm text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-white/20 dark:bg-night dark:text-white"
+                        className="input py-2 text-sm"
                       />
                     </div>
                     <div className="space-y-2">
@@ -228,7 +238,7 @@ export default function PlanProjectPage() {
                         value={milestone.amount}
                         onChange={(e) => updateMilestone(index, "amount", e.target.value)}
                         required
-                        className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-2 text-sm text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-white/20 dark:bg-night dark:text-white"
+                        className="input py-2 text-sm"
                       />
                     </div>
                     <div className="space-y-2">
@@ -240,7 +250,7 @@ export default function PlanProjectPage() {
                         value={milestone.dueDate}
                         onChange={(e) => updateMilestone(index, "dueDate", e.target.value)}
                         required
-                        className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-2 text-sm text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-white/20 dark:bg-night dark:text-white"
+                        className="input py-2 text-sm"
                       />
                     </div>
                     <div className="space-y-2">
@@ -251,7 +261,7 @@ export default function PlanProjectPage() {
                         type="text"
                         value={milestone.description}
                         onChange={(e) => updateMilestone(index, "description", e.target.value)}
-                        className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-2 text-sm text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-white/20 dark:bg-night dark:text-white"
+                        className="input py-2 text-sm"
                       />
                     </div>
                   </div>
@@ -259,7 +269,7 @@ export default function PlanProjectPage() {
               ))}
               <button
                 onClick={addMilestone}
-                className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-sm font-medium text-ink transition hover:border-ink/40 dark:border-white/20 dark:bg-night dark:text-white dark:hover:border-white/40"
+                className="btn btn-secondary w-full py-3 rounded-2xl"
               >
                 + Add Milestone
               </button>
@@ -267,22 +277,20 @@ export default function PlanProjectPage() {
           </div>
 
           {isNegotiationResponse && (
-            <div className="rounded-3xl border border-ink/10 bg-white p-6 shadow-card dark:border-white/10 dark:bg-nightSoft">
-              <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">
-                Response Options
-              </h3>
+            <div className="card card-dark p-6">
+              <h3 className="text-lg font-semibold text-ink dark:text-white mb-4">Response options</h3>
               <div className="space-y-4">
                 <button
                   onClick={() => handleSubmit("approve")}
                   disabled={submitting}
-                  className="w-full inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+                  className="btn btn-primary w-full py-3 text-base rounded-2xl"
                 >
                   {submitting ? "Processing..." : "Approve Client's Request & Update Plan"}
                 </button>
                 <button
                   onClick={() => setShowRenegotiate(!showRenegotiate)}
                   disabled={submitting}
-                  className="w-full inline-flex items-center justify-center rounded-full border border-ink/20 bg-white px-6 py-3 text-base font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:text-white dark:hover:border-white/40 disabled:opacity-50"
+                  className="btn btn-secondary w-full py-3 text-base rounded-2xl"
                 >
                   {showRenegotiate ? "Cancel Re-negotiation" : "Re-negotiate Back to Client"}
                 </button>
@@ -292,13 +300,13 @@ export default function PlanProjectPage() {
                       value={negotiationMessage}
                       onChange={(e) => setNegotiationMessage(e.target.value)}
                       placeholder="Explain your counter-proposal..."
-                      className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-white/20 dark:bg-night dark:text-white min-h-[120px]"
+                      className="textarea min-h-[120px]"
                       rows={5}
                     />
                     <button
                       onClick={() => handleSubmit("renegotiate")}
                       disabled={submitting || !negotiationMessage.trim()}
-                      className="w-full inline-flex items-center justify-center rounded-full bg-yellow-500 px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+                      className="btn w-full py-3 text-base rounded-2xl bg-yellow-500 text-white hover:opacity-90 disabled:opacity-50"
                     >
                       {submitting ? "Sending..." : "Submit Re-negotiation"}
                     </button>
@@ -313,7 +321,7 @@ export default function PlanProjectPage() {
                     }
                   }}
                   disabled={submitting}
-                  className="w-full inline-flex items-center justify-center rounded-full border border-red-300 bg-red-50 px-6 py-3 text-base font-semibold text-red-700 transition hover:bg-red-100 dark:border-red-700 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30 disabled:opacity-50"
+                  className="btn w-full py-3 text-base rounded-2xl border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 dark:border-red-700 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30 disabled:opacity-50"
                 >
                   {submitting ? "Processing..." : "Reject Client's Request"}
                 </button>
@@ -326,14 +334,14 @@ export default function PlanProjectPage() {
               <button
                 onClick={() => handleSubmit()}
                 disabled={submitting}
-                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+                className="btn btn-primary px-6 py-3 text-base rounded-2xl"
               >
                 {submitting ? "Saving..." : "Create Plan & Send to Client"}
               </button>
               <button
                 onClick={() => router.back()}
                 disabled={submitting}
-                className="inline-flex items-center justify-center rounded-full border border-ink/20 bg-white px-6 py-3 text-base font-semibold text-ink transition hover:border-ink/40 dark:border-white/20 dark:text-white dark:hover:border-white/40 disabled:opacity-50"
+                className="btn btn-secondary px-6 py-3 text-base rounded-2xl"
               >
                 Cancel
               </button>

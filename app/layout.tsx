@@ -61,11 +61,11 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body>
+      <body className="page-bg">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <Providers>
           <Header />
-          <main>{children}</main>
+          <main className="min-h-[calc(100vh-140px)]">{children}</main>
           <Footer />
         </Providers>
         <AnalyticsPlaceholder />

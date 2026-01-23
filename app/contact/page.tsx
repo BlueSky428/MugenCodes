@@ -20,18 +20,16 @@ const ContactItem = ({ label, value, href, icon }: ContactItemProps) => {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-center gap-4 rounded-2xl border border-ink/10 bg-white p-6 transition hover:border-accent hover:shadow-soft dark:border-white/10 dark:bg-nightSoft dark:hover:border-accent"
+      className="card card-dark card-hover group flex items-center gap-4 p-6 hover:border-gray-400 dark:hover:border-gray-600"
     >
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-xl font-semibold text-accent transition group-hover:bg-accent group-hover:text-white dark:bg-accent/20">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-xl font-semibold text-black transition group-hover:bg-black group-hover:text-white dark:bg-gray-800 dark:text-white dark:group-hover:bg-white dark:group-hover:text-black">
         {icon || label.charAt(0)}
       </div>
       <div className="flex-1">
-        <div className="text-sm font-medium text-ink/70 dark:text-white/70">
+        <div className="text-xs font-semibold uppercase tracking-[0.22em] text-ink/55 dark:text-white/50">
           {label}
         </div>
-        <div className="mt-1 text-lg font-semibold text-ink dark:text-white">
-          {value}
-        </div>
+        <div className="mt-1 text-lg font-semibold text-ink dark:text-white">{value}</div>
       </div>
     </a>
   );
@@ -40,16 +38,14 @@ const ContactItem = ({ label, value, href, icon }: ContactItemProps) => {
 export default function ContactPage() {
   return (
     <>
-      <Section title="Get in touch">
+      <Section eyebrow="Contact" title="Get in touch">
         <div className="max-w-3xl">
-          <p className="text-base text-ink/70 dark:text-white/70">
-            We respond to all inquiries within two business days. Choose your preferred method to reach out to us.
+          <p className="muted text-lg">
+            Choose your preferred channel. We typically respond within two business days.
           </p>
         </div>
-      </Section>
 
-      <Section>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <ContactItem
             label="Phone"
             value={siteConfig.phone}

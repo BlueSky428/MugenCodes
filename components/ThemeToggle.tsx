@@ -30,15 +30,15 @@ export const ThemeToggle = () => {
       type="button"
       onClick={toggleTheme}
       aria-label="Toggle color theme"
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition hover:border-ink/40 dark:border-white/20 dark:text-white"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-gray-300 bg-white text-ink transition-all duration-300 hover:bg-gray-50 hover:border-primary-500 hover:scale-110 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800 dark:hover:border-primary-400"
     >
       {theme === "dark" ? (
         <svg
           viewBox="0 0 24 24"
-          className="h-5 w-5"
+          className="h-5 w-5 transition-transform duration-300 rotate-0"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.6"
+          strokeWidth="2"
         >
           <path
             d="M12 3v2M12 19v2M4.22 5.22l1.42 1.42M18.36 17.36l1.42 1.42M3 12h2M19 12h2M5.22 19.78l1.42-1.42M17.36 6.64l1.42-1.42"
@@ -50,10 +50,10 @@ export const ThemeToggle = () => {
       ) : (
         <svg
           viewBox="0 0 24 24"
-          className="h-5 w-5"
+          className="h-5 w-5 transition-transform duration-300 rotate-0"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.6"
+          strokeWidth="2"
         >
           <path
             d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"

@@ -18,7 +18,13 @@ export default function NewProjectPage() {
   const [loading, setLoading] = useState(false);
 
   if (status === "loading") {
-    return <Section title="Loading...">Please wait...</Section>;
+    return (
+      <Section eyebrow="Projects" title="Submit a new project">
+        <div className="card card-dark p-8">
+          <p className="muted">Checking session…</p>
+        </div>
+      </Section>
+    );
   }
 
   if (status === "unauthenticated") {
@@ -64,11 +70,11 @@ export default function NewProjectPage() {
 
   return (
     <>
-      <Section title="Submit New Project">
+      <Section eyebrow="Projects" title="Submit a new project">
         <div className="max-w-2xl mx-auto">
           <form
             onSubmit={handleSubmit}
-            className="space-y-6 rounded-3xl border border-ink/10 bg-white p-8 shadow-card transition hover:shadow-soft dark:border-white/10 dark:bg-nightSoft"
+            className="card card-dark p-8 space-y-6"
           >
             {error && (
               <div className="rounded-2xl bg-red-50 border border-red-200 p-4 text-sm text-red-700 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
@@ -85,7 +91,7 @@ export default function NewProjectPage() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
-                className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
+                className="input"
               />
             </div>
 
@@ -98,7 +104,7 @@ export default function NewProjectPage() {
                 onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
                 required
                 rows={8}
-                className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
+                className="textarea"
                 placeholder="Describe your project requirements in detail..."
               />
             </div>
@@ -115,7 +121,7 @@ export default function NewProjectPage() {
                   value={formData.developmentCost}
                   onChange={(e) => setFormData({ ...formData, developmentCost: e.target.value })}
                   required
-                  className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
+                  className="input"
                 />
               </div>
 
@@ -129,7 +135,7 @@ export default function NewProjectPage() {
                   onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
                   required
                   min={new Date().toISOString().split("T")[0]}
-                  className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
+                  className="input"
                 />
               </div>
             </div>
@@ -137,7 +143,7 @@ export default function NewProjectPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-nightSoft disabled:opacity-50"
+              className="btn btn-primary w-full py-3 text-base rounded-2xl"
             >
               {loading ? "Submitting..." : "Submit Project Request"}
             </button>

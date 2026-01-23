@@ -84,23 +84,23 @@ const teamMembers: TeamMember[] = [
 export default function TeamPage() {
   return (
     <>
-      <Section title="A focused team with clearly defined roles">
+      <Section eyebrow="Team" title="A focused team with clearly defined roles">
         <div className="max-w-3xl">
-        <p>
-            We maintain a small, dedicated team by design. Each role has clearly defined responsibilities and ownership, enabling efficient execution with reduced risk and greater predictability.
-        </p>
+          <p className="muted text-lg">
+            We keep the team intentionally small. Clear roles, written decisions, and calm delivery reduce risk and keep progress predictable.
+          </p>
         </div>
       </Section>
 
-      <Section title="Meet the team">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+      <Section eyebrow="People" title="Meet the team">
+        <div className="grid gap-6 md:grid-cols-2">
           {teamMembers.map((member) => (
             <div
               key={member.name}
-              className="rounded-3xl border border-ink/10 bg-white p-8 shadow-card transition hover:shadow-soft dark:border-white/10 dark:bg-nightSoft"
+              className="card card-dark card-hover p-8"
             >
               <div className="flex flex-col items-center text-center">
-                <div className="relative h-48 w-48 overflow-hidden rounded-3xl border-2 border-ink/10 bg-surface shadow-md dark:border-white/10 dark:bg-night md:h-56 md:w-56 lg:h-64 lg:w-64">
+                <div className="relative h-44 w-44 overflow-hidden rounded-3xl border border-ink/10 bg-surface shadow-sm dark:border-white/10 dark:bg-night md:h-52 md:w-52">
                   <Image
                     src={member.photoSrc}
                     alt={`${member.name} portrait`}
@@ -110,25 +110,21 @@ export default function TeamPage() {
                   />
                 </div>
                 <div className="mt-6 w-full">
-                  <p className="text-xs uppercase tracking-[0.2em] text-ink/50 dark:text-white/50">
-                    {member.role}
-                  </p>
+                  <div className="badge mx-auto w-fit">{member.role}</div>
                   <h3 className="mt-2 text-2xl font-semibold text-ink dark:text-white md:text-3xl">
                     {member.name}
                   </h3>
                 </div>
               </div>
-              <div className="mt-6 space-y-2.5 text-sm text-ink/65 dark:text-white/60">
+              <div className="mt-6 space-y-2 text-sm muted">
                 <p className="font-medium">{member.age}</p>
                 <p>{member.location}</p>
-                <p className="pt-1 text-ink/75 dark:text-white/75">{member.majorSkills}</p>
+                <p className="pt-1">{member.majorSkills}</p>
               </div>
               <div className="mt-6 space-y-4 border-t border-ink/10 pt-6 text-base leading-relaxed dark:border-white/10">
-                <p className="text-ink/70 dark:text-white/70">{member.bio}</p>
-                <p className="text-ink/70 dark:text-white/70">
-                {member.strengths}
-              </p>
-                <p className="text-ink/70 dark:text-white/70">{member.value}</p>
+                <p className="muted">{member.bio}</p>
+                <p className="muted">{member.strengths}</p>
+                <p className="muted">{member.value}</p>
               </div>
             </div>
           ))}

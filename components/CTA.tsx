@@ -22,7 +22,7 @@ export const CTA = ({
       <div className="mt-6 flex flex-wrap gap-4">
         <a
           href={primaryHref}
-          className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface dark:focus-visible:ring-offset-night"
+          className="inline-flex items-center justify-center rounded-lg bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-black dark:hover:bg-gray-100 dark:focus-visible:ring-white dark:focus-visible:ring-offset-black"
         >
           {primaryLabel}
         </a>

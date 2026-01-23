@@ -61,11 +61,16 @@ export default function SignUpPage() {
 
   return (
     <>
-      <Section title="Create account">
+      <Section eyebrow="Account" title="Create account">
         <div className="max-w-md mx-auto">
+          <div className="mb-6 text-center">
+            <p className="muted">
+              Create an account to submit projects and track progress end-to-end.
+            </p>
+          </div>
           <form
             onSubmit={handleSubmit}
-            className="space-y-6 rounded-3xl border border-ink/10 bg-white p-8 shadow-card transition hover:shadow-soft dark:border-white/10 dark:bg-nightSoft"
+            className="card card-dark p-8 space-y-6"
           >
             {error && (
               <div className="rounded-2xl bg-red-50 border border-red-200 p-4 text-sm text-red-700 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
@@ -82,7 +87,7 @@ export default function SignUpPage() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
-                className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
+                className="input"
               />
             </div>
 
@@ -95,7 +100,7 @@ export default function SignUpPage() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
-                className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
+                className="input"
               />
             </div>
 
@@ -108,7 +113,7 @@ export default function SignUpPage() {
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
-                className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
+                className="input"
               />
             </div>
 
@@ -121,21 +126,21 @@ export default function SignUpPage() {
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                 required
-                className="w-full rounded-2xl border border-ink/20 bg-white px-4 py-3 text-base text-ink transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-night dark:text-white dark:focus-visible:ring-offset-nightSoft"
+                className="input"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-nightSoft disabled:opacity-50"
+              className="btn btn-primary w-full py-3 text-base rounded-2xl"
             >
               {loading ? "Creating account..." : "Create account"}
             </button>
 
             <p className="text-center text-sm text-ink/70 dark:text-white/70">
               Already have an account?{" "}
-              <Link href="/auth/signin" className="text-accent hover:underline">
+              <Link href="/auth/signin" className="text-black hover:underline dark:text-white">
                 Sign in
               </Link>
             </p>
