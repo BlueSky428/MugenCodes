@@ -58,7 +58,14 @@ export async function POST(request: Request) {
 
     // Send verification email
     try {
-      await sendVerificationEmail(user.email, user.name, verificationToken);
+      const emailResult = await sendVerificationEmail(user.email, user.name, verificationToken);
+      if (!emailResult.delivered) {
+        console.error("Verification email not delivered:", {
+          email: user.email,
+          provider: emailResult.provider,
+        });
+        // Don't fail signup if email fails - user can request resend later
+      }
     } catch (emailError) {
       console.error("Failed to send verification email:", emailError);
       // Don't fail signup if email fails - user can request resend later
