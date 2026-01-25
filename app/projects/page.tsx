@@ -8,6 +8,7 @@ import Link from "next/link";
 import { ProjectCard } from "@/components/ProjectCard";
 import { useGlobalSocket } from "@/lib/useGlobalSocket";
 import { ProjectCardSkeleton } from "@/components/LoadingSkeleton";
+import { projectStatusTextColors } from "@/lib/status";
 
 type Project = {
   id: string;
@@ -208,42 +209,42 @@ export default function ProjectsPage() {
               <div className="mt-2 text-3xl font-semibold text-ink dark:text-white">{stats.total}</div>
             </div>
             <div className="card card-dark p-6">
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-600 dark:text-gray-400">
+              <div className={`text-xs font-semibold uppercase tracking-[0.22em] ${projectStatusTextColors.APPLICATION_IN_PROGRESS} opacity-70`}>
                 Application
               </div>
-              <div className="mt-2 text-3xl font-semibold text-black dark:text-white">
+              <div className={`mt-2 text-3xl font-semibold ${projectStatusTextColors.APPLICATION_IN_PROGRESS}`}>
                 {stats.applicationInProgress}
               </div>
             </div>
             <div className="card card-dark p-6">
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-600 dark:text-gray-400">
+              <div className={`text-xs font-semibold uppercase tracking-[0.22em] ${projectStatusTextColors.DISCUSSION_IN_PROGRESS} opacity-70`}>
                 Discussion
               </div>
-              <div className="mt-2 text-3xl font-semibold text-black dark:text-white">
+              <div className={`mt-2 text-3xl font-semibold ${projectStatusTextColors.DISCUSSION_IN_PROGRESS}`}>
                 {stats.discussionInProgress}
               </div>
             </div>
             <div className="card card-dark p-6">
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-600 dark:text-gray-400">
+              <div className={`text-xs font-semibold uppercase tracking-[0.22em] ${projectStatusTextColors.DEVELOPMENT_IN_PROGRESS} opacity-70`}>
                 Development
               </div>
-              <div className="mt-2 text-3xl font-semibold text-black dark:text-white">
+              <div className={`mt-2 text-3xl font-semibold ${projectStatusTextColors.DEVELOPMENT_IN_PROGRESS}`}>
                 {stats.developmentInProgress}
               </div>
             </div>
             <div className="card card-dark p-6">
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-600 dark:text-gray-400">
+              <div className={`text-xs font-semibold uppercase tracking-[0.22em] ${projectStatusTextColors.SUCCEEDED} opacity-70`}>
                 Succeeded
               </div>
-              <div className="mt-2 text-3xl font-semibold text-black dark:text-white">
+              <div className={`mt-2 text-3xl font-semibold ${projectStatusTextColors.SUCCEEDED}`}>
                 {stats.succeeded}
               </div>
             </div>
             <div className="card card-dark p-6">
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-600 dark:text-gray-400">
+              <div className={`text-xs font-semibold uppercase tracking-[0.22em] ${projectStatusTextColors.FAILED} opacity-70`}>
                 Failed
               </div>
-              <div className="mt-2 text-3xl font-semibold text-black dark:text-white">
+              <div className={`mt-2 text-3xl font-semibold ${projectStatusTextColors.FAILED}`}>
                 {stats.failed}
               </div>
             </div>
@@ -263,9 +264,9 @@ export default function ProjectsPage() {
             </button>
             <button
               onClick={() => setFilter("APPLICATION_IN_PROGRESS")}
-              className={`btn px-4 py-2 ${
+              className={`px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 ${
                 filter === "APPLICATION_IN_PROGRESS"
-                  ? "btn-primary"
+                  ? "bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                   : "btn-secondary"
               }`}
             >
@@ -273,9 +274,9 @@ export default function ProjectsPage() {
             </button>
             <button
               onClick={() => setFilter("DISCUSSION_IN_PROGRESS")}
-              className={`btn px-4 py-2 ${
+              className={`px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 ${
                 filter === "DISCUSSION_IN_PROGRESS"
-                  ? "btn-primary"
+                  ? "bg-warning-500 text-white hover:bg-warning-600 dark:bg-warning-600 dark:hover:bg-warning-700"
                   : "btn-secondary"
               }`}
             >
@@ -283,9 +284,9 @@ export default function ProjectsPage() {
             </button>
             <button
               onClick={() => setFilter("DEVELOPMENT_IN_PROGRESS")}
-              className={`btn px-4 py-2 ${
+              className={`px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 ${
                 filter === "DEVELOPMENT_IN_PROGRESS"
-                  ? "btn-primary"
+                  ? "bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
                   : "btn-secondary"
               }`}
             >
@@ -293,9 +294,9 @@ export default function ProjectsPage() {
             </button>
             <button
               onClick={() => setFilter("SUCCEEDED")}
-              className={`btn px-4 py-2 ${
+              className={`px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 ${
                 filter === "SUCCEEDED"
-                  ? "btn-primary"
+                  ? "bg-success-600 text-white hover:bg-success-700 dark:bg-success-500 dark:hover:bg-success-600"
                   : "btn-secondary"
               }`}
             >
@@ -303,9 +304,9 @@ export default function ProjectsPage() {
             </button>
             <button
               onClick={() => setFilter("FAILED")}
-              className={`btn px-4 py-2 ${
+              className={`px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 ${
                 filter === "FAILED"
-                  ? "btn-primary"
+                  ? "bg-error-600 text-white hover:bg-error-700 dark:bg-error-500 dark:hover:bg-error-600"
                   : "btn-secondary"
               }`}
             >

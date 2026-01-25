@@ -66,7 +66,15 @@ export default function SignUpPage() {
         return;
       }
 
-      router.push("/auth/signin?registered=true");
+      // Show success message with verification info
+      if (data.message) {
+        setError(""); // Clear any errors
+        // Store email for potential resend
+        sessionStorage.setItem("pendingVerificationEmail", formData.email);
+        router.push(`/auth/signin?registered=true&verify=true&email=${encodeURIComponent(formData.email)}`);
+      } else {
+        router.push("/auth/signin?registered=true");
+      }
     } catch (err) {
       setError("An error occurred. Please try again.");
     } finally {

@@ -31,6 +31,10 @@ export default function FailedPage() {
     }
   }, []);
 
+  const handleProjectDeleted = () => {
+    fetchProjects();
+  };
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin");
@@ -80,6 +84,7 @@ export default function FailedPage() {
       projects={projects}
       title="Failed Projects"
       emptyMessage="No failed projects."
+      onProjectDeleted={handleProjectDeleted}
     />
   );
 }

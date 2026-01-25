@@ -7,7 +7,7 @@ import { Section } from "@/components/Section";
 import Link from "next/link";
 import { ProjectChat } from "@/components/ProjectChat";
 import { useSocket } from "@/lib/useSocket";
-import { formatProjectStatus, formatFeasibilityStatus, feasibilityStatusColors, projectStatusColors, projectStatusIcons } from "@/lib/status";
+import { formatProjectStatus, formatFeasibilityStatus, feasibilityStatusColors, projectStatusColors, projectStatusIcons, projectStatusTextColors } from "@/lib/status";
 
 type Project = {
   id: string;
@@ -369,11 +369,18 @@ export default function ProjectDetailPage() {
                           }`}
                           title={formatProjectStatus(project.status)}
                         >
-                          <StatusIcon className="w-6 h-6" />
+                          <StatusIcon className={`w-6 h-6 ${
+                            project.status === "APPLICATION_IN_PROGRESS" ? "text-blue-600 dark:text-blue-400" :
+                            project.status === "DISCUSSION_IN_PROGRESS" ? "text-warning-600 dark:text-warning-400" :
+                            project.status === "DEVELOPMENT_IN_PROGRESS" ? "text-indigo-600 dark:text-indigo-400" :
+                            project.status === "SUCCEEDED" ? "text-success-600 dark:text-success-400" :
+                            project.status === "FAILED" ? "text-error-600 dark:text-error-400" :
+                            "text-primary-600 dark:text-primary-400"
+                          }`} />
                         </div>
                       );
                     })()}
-                    <span className="text-sm text-ink/70 dark:text-white/70">
+                    <span className={`text-sm font-medium ${projectStatusTextColors[project.status] || "text-ink/70 dark:text-white/70"}`}>
                       {project && formatProjectStatus(project.status)}
                     </span>
                   </div>

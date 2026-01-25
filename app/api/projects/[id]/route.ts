@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { broadcastProjectChange } from "@/lib/broadcast";
 
 // GET - Get single project
 export async function GET(
@@ -139,6 +140,65 @@ export async function PUT(
     console.error("Error updating project:", error);
     return NextResponse.json(
       { error: "Failed to update project" },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE - Delete project (admin only, failed projects only)
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await auth();
+
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Only admins and developers can delete projects
+    if (session.user.role !== "ADMIN" && session.user.role !== "DEVELOPER") {
+      return NextResponse.json(
+        { error: "Only administrators can delete projects" },
+        { status: 403 }
+      );
+    }
+
+    const project = await prisma.project.findUnique({
+      where: { id: params.id },
+    });
+
+    if (!project) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
+
+    // Only allow deletion of failed projects
+    if (project.status !== "FAILED") {
+      return NextResponse.json(
+        { error: "Only failed projects can be deleted" },
+        { status: 400 }
+      );
+    }
+
+    // Delete the project (cascade will handle related records)
+    await prisma.project.delete({
+      where: { id: params.id },
+    });
+
+    // Broadcast deletion via WebSocket
+    await broadcastProjectChange(params.id, "deleted", {
+      projectId: params.id,
+    });
+
+    return NextResponse.json({ 
+      deleted: true,
+      message: "Project has been deleted successfully" 
+    });
+  } catch (error) {
+    console.error("Error deleting project:", error);
+    return NextResponse.json(
+      { error: "Failed to delete project" },
       { status: 500 }
     );
   }

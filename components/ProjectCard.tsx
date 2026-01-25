@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { UnreadMessageBadge } from "@/components/UnreadMessageBadge";
-import { formatProjectStatus, projectStatusColors, projectStatusIcons } from "@/lib/status";
+import { formatProjectStatus, projectStatusColors, projectStatusIcons, projectStatusBorderColors } from "@/lib/status";
 
 type Project = {
   id: string;
@@ -31,10 +31,21 @@ export function ProjectCard({ project, onCancel, canCancel }: ProjectCardProps) 
   const totalMilestones = project.milestones?.length || 0;
   const StatusIcon = projectStatusIcons[project.status] || projectStatusIcons.APPLICATION_IN_PROGRESS;
 
+  const statusBorderColor = projectStatusBorderColors[project.status] || projectStatusBorderColors.APPLICATION_IN_PROGRESS;
+
   return (
     <div className="relative group">
       <Link href={`/projects/${project.id}`} className="block">
-        <div className="card card-dark card-hover cursor-pointer p-6 h-full animate-fade-in-up transition-all duration-300 group-hover:border-primary-200 dark:group-hover:border-primary-800">
+        <div className={`card card-dark card-hover cursor-pointer p-6 h-full animate-fade-in-up transition-all duration-300 border-l-4 ${statusBorderColor} relative overflow-hidden`}>
+          {/* Status color accent bar */}
+          <div className={`absolute top-0 left-0 right-0 h-1 ${
+            project.status === "APPLICATION_IN_PROGRESS" ? "bg-blue-500" :
+            project.status === "DISCUSSION_IN_PROGRESS" ? "bg-warning-500" :
+            project.status === "DEVELOPMENT_IN_PROGRESS" ? "bg-indigo-500" :
+            project.status === "SUCCEEDED" ? "bg-success-500" :
+            project.status === "FAILED" ? "bg-error-500" :
+            "bg-primary-500"
+          }`}></div>
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <h3 className="text-xl font-semibold text-ink dark:text-white truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
@@ -65,7 +76,14 @@ export function ProjectCard({ project, onCancel, canCancel }: ProjectCardProps) 
                 }`}
                 title={formatProjectStatus(project.status)}
               >
-                <StatusIcon className="w-6 h-6" />
+                <StatusIcon className={`w-6 h-6 ${
+                  project.status === "APPLICATION_IN_PROGRESS" ? "text-blue-600 dark:text-blue-400" :
+                  project.status === "DISCUSSION_IN_PROGRESS" ? "text-warning-600 dark:text-warning-400" :
+                  project.status === "DEVELOPMENT_IN_PROGRESS" ? "text-indigo-600 dark:text-indigo-400" :
+                  project.status === "SUCCEEDED" ? "text-success-600 dark:text-success-400" :
+                  project.status === "FAILED" ? "text-error-600 dark:text-error-400" :
+                  "text-primary-600 dark:text-primary-400"
+                }`} />
               </div>
             </div>
           </div>
