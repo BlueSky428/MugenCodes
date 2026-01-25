@@ -18,13 +18,10 @@ export async function POST(request: Request) {
 
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { id: true, email: true, emailVerified: true },
+      select: { id: true, email: true },
     });
 
-    return NextResponse.json({ 
-      exists: !!user,
-      emailVerified: user?.emailVerified || false,
-    });
+    return NextResponse.json({ exists: !!user });
   } catch (error) {
     console.error("Error checking email:", error);
     return NextResponse.json(
