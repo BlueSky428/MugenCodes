@@ -170,7 +170,7 @@ export function ProjectChat({ projectId }: ProjectChatProps) {
   return (
     <div className="rounded-3xl border border-ink/10 bg-white shadow-card dark:border-white/10 dark:bg-nightSoft flex flex-col h-[600px] animate-fade-in-up overflow-hidden">
       {/* Header */}
-      <div className="p-6 border-b border-ink/10 dark:border-white/10 bg-gradient-to-r from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-800/50">
+      <div className="p-6 border-b border-ink/10 dark:border-white/10 bg-gradient-to-r from-white to-gray-50/50 dark:from-gray-800 dark:to-gray-700/50">
         <div className="flex items-center justify-between">
           <div className="animate-fade-in">
             <h3 className="text-lg font-semibold text-ink dark:text-white flex items-center gap-2">
@@ -277,7 +277,7 @@ export function ProjectChat({ projectId }: ProjectChatProps) {
       )}
 
       {/* Input Form */}
-      <form onSubmit={handleSendMessage} className="p-6 border-t border-ink/10 dark:border-white/10 bg-white dark:bg-gray-900">
+      <form onSubmit={handleSendMessage} className="p-6 border-t border-ink/10 dark:border-white/10 bg-white dark:bg-gray-800">
         <div className="flex gap-3">
           <textarea
             value={newMessage}

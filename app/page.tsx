@@ -29,11 +29,10 @@ export default function HomePage() {
   return (
     <>
       <section className="bg-hero relative overflow-hidden">
-        <div aria-hidden className="absolute inset-0 opacity-[0.22] dark:opacity-[0.12] bg-grid" />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-50/50 via-transparent to-primary-100/30 dark:from-primary-950/20 dark:via-transparent dark:to-primary-900/10"></div>
+        <div aria-hidden className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08] bg-grid" />
         <div className="container-page relative py-20 md:py-28 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border-2 border-primary-200 bg-white/80 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-gray-900 shadow-sm animate-fade-in-down dark:border-primary-800 dark:bg-gray-900/80 dark:text-white">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border-2 border-primary-200 bg-gray-50/80 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-gray-900 shadow-sm animate-fade-in-down dark:border-primary-800 dark:bg-gray-800/80 dark:text-white">
               <span className="h-2 w-2 rounded-full bg-primary-500 animate-pulse" />
               Calm delivery for important software
             </div>

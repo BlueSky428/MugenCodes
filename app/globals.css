@@ -7,28 +7,72 @@
 }
 
 body {
-  @apply bg-surface text-ink antialiased leading-relaxed;
+  @apply text-ink antialiased leading-relaxed;
   font-feature-settings: "liga" 1, "kern" 1;
   text-rendering: optimizeLegibility;
   transition: background-color 0.3s ease, color 0.3s ease;
+  background: 
+    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(248, 250, 252, 0.8) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 60% at 50% 100%, rgba(241, 245, 249, 0.6) 0%, transparent 60%),
+    #f8fafc;
+  background-attachment: fixed;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0, 0, 0, 0.015) 1px, rgba(0, 0, 0, 0.015) 2px),
+    repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(0, 0, 0, 0.015) 1px, rgba(0, 0, 0, 0.015) 2px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
 }
 
 a {
-  @apply text-ink underline-offset-4 transition-all duration-300 hover:underline dark:text-white;
+  @apply text-ink underline-offset-4 transition-all duration-300 hover:underline hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400;
 }
 
 ::selection {
-  background: #0ea5e9;
+  background: #06b6d4;
   color: #ffffff;
 }
 
 html {
   scroll-behavior: smooth;
+  min-height: 100%;
 }
 
 .dark body {
-  background: #000000;
-  color: #ffffff;
+  background: 
+    radial-gradient(ellipse 100% 70% at 50% 0%, rgba(30, 41, 59, 0.8) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 70% at 50% 100%, rgba(15, 23, 42, 0.95) 0%, transparent 70%),
+    #0f172a;
+  background-attachment: fixed;
+  color: #f1f5f9;
+  position: relative;
+}
+
+.dark body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255, 255, 255, 0.008) 1px, rgba(255, 255, 255, 0.008) 2px),
+    repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255, 255, 255, 0.008) 1px, rgba(255, 255, 255, 0.008) 2px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.25;
 }
 
 .dark a {
@@ -36,8 +80,8 @@ html {
 }
 
 .dark ::selection {
-  background: #38bdf8;
-  color: #000000;
+  background: #22d3ee;
+  color: #0f172a;
 }
 
 /* Override Next.js Image fill height for logo */
@@ -53,7 +97,13 @@ a[aria-label*="Mugen Codes"] img.object-contain {
   }
 
   .page-bg {
-    @apply bg-white dark:bg-black transition-colors duration-300;
+    @apply transition-colors duration-300;
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  .dark .page-bg {
+    /* Background handled by body element */
   }
 
   .section {
@@ -71,9 +121,9 @@ a[aria-label*="Mugen Codes"] img.object-contain {
   }
 
   .card {
-    @apply rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300;
-    @apply dark:border-gray-800 dark:bg-gray-900;
-    @apply hover:shadow-card-hover hover:-translate-y-1;
+    @apply rounded-2xl border border-gray-200/80 bg-white shadow-sm transition-all duration-300;
+    @apply dark:border-gray-700/50 dark:bg-gray-800/80;
+    @apply hover:shadow-card-hover hover:-translate-y-1 hover:border-gray-300 dark:hover:border-gray-600;
   }
 
   .card-hover {
@@ -83,7 +133,7 @@ a[aria-label*="Mugen Codes"] img.object-contain {
   }
 
   .card-dark {
-    @apply dark:border-gray-800 dark:bg-gray-900;
+    @apply dark:border-gray-700/50 dark:bg-gray-800/80;
   }
 
   .btn {
@@ -97,15 +147,17 @@ a[aria-label*="Mugen Codes"] img.object-contain {
 
   .btn-primary {
     @apply bg-gradient-primary text-white shadow-lg;
-    @apply hover:shadow-glow hover:scale-105;
+    @apply hover:shadow-glow hover:scale-105 hover:bg-gradient-primary-light;
     @apply dark:bg-gradient-primary dark:shadow-glow;
+    @apply transition-all duration-300;
   }
 
   .btn-secondary {
     @apply border-2 border-gray-300 bg-white text-ink;
-    @apply hover:bg-gray-50 hover:border-gray-400 hover:shadow-md;
-    @apply dark:border-gray-700 dark:bg-gray-900 dark:text-white;
-    @apply dark:hover:bg-gray-800 dark:hover:border-gray-600;
+    @apply hover:bg-gray-50 hover:border-primary-300 hover:shadow-md hover:text-primary-700;
+    @apply dark:border-gray-600 dark:bg-gray-800/80 dark:text-white;
+    @apply dark:hover:bg-gray-700/80 dark:hover:border-primary-500 dark:hover:text-primary-300;
+    @apply transition-all duration-300;
   }
 
   .btn-ghost {
@@ -118,9 +170,9 @@ a[aria-label*="Mugen Codes"] img.object-contain {
     @apply transition-all duration-300 focus-visible:outline-none;
     @apply focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-primary-500;
     @apply focus-visible:ring-offset-2 focus-visible:ring-offset-white;
-    @apply dark:border-gray-700 dark:bg-gray-900 dark:text-white;
-    @apply dark:focus-visible:ring-primary-400 dark:focus-visible:ring-offset-black;
-    @apply hover:border-gray-400 dark:hover:border-gray-600;
+    @apply dark:border-gray-600 dark:bg-gray-800/80 dark:text-white;
+    @apply dark:focus-visible:ring-primary-400 dark:focus-visible:ring-offset-gray-800;
+    @apply hover:border-primary-300 dark:hover:border-primary-600;
   }
 
   .textarea {
@@ -130,23 +182,36 @@ a[aria-label*="Mugen Codes"] img.object-contain {
   .badge {
     @apply inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-700;
     @apply transition-all duration-300 hover:scale-105;
-    @apply dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300;
+    @apply dark:border-gray-600 dark:bg-gray-700/60 dark:text-gray-200;
   }
 
   .muted {
     @apply text-gray-600 dark:text-gray-400;
   }
 
+  /* Enhanced text colors */
+  .text-primary-accent {
+    @apply text-primary-600 dark:text-primary-400;
+  }
+
+  .text-subtle {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
   /* Modern gradient backgrounds */
   .bg-hero {
-    @apply bg-gradient-to-br from-white via-gray-50 to-white;
-    @apply dark:from-black dark:via-gray-950 dark:to-black;
+    position: relative;
+    /* Background handled by body element */
+  }
+  
+  .dark .bg-hero {
+    /* Background handled by body element */
   }
 
   /* Glass morphism effect */
   .glass {
-    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl;
-    @apply border border-white/20 dark:border-gray-700/20;
+    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl;
+    @apply border border-white/20 dark:border-gray-600/20;
   }
 }
 
@@ -160,14 +225,14 @@ a[aria-label*="Mugen Codes"] img.object-contain {
   
   .dashboard-card {
     @apply rounded-xl border border-gray-200 bg-white p-6 shadow-sm;
-    @apply dark:border-gray-800 dark:bg-gray-900;
+    @apply dark:border-gray-700 dark:bg-gray-800;
     @apply transition-all duration-300 hover:shadow-md;
   }
 
   /* Text gradient */
   .text-gradient {
-    @apply bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent;
-    @apply dark:from-primary-400 dark:to-primary-300;
+    @apply bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400 bg-clip-text text-transparent;
+    @apply dark:from-primary-400 dark:via-primary-300 dark:to-primary-200;
   }
 
   /* Animated gradient background */
@@ -188,6 +253,16 @@ a[aria-label*="Mugen Codes"] img.object-contain {
     background-size: 200% 100%;
     animation: shimmer 2s linear infinite;
   }
+
+  /* Luminous text glow effect for badges */
+  .text-luminous {
+    text-shadow: 0 0 4px rgba(165, 243, 252, 0.8), 0 0 8px rgba(108, 227, 252, 0.5), 0 0 12px rgba(108, 227, 252, 0.3);
+  }
+
+  /* Icon glow effect for status badges */
+  .dark .text-luminous svg {
+    filter: drop-shadow(0 0 4px rgba(165, 243, 252, 0.8)) drop-shadow(0 0 8px rgba(108, 227, 252, 0.5));
+  }
 }
 
 /* Smooth scrollbar styling */
@@ -197,11 +272,11 @@ a[aria-label*="Mugen Codes"] img.object-contain {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-900;
+  @apply bg-gray-100 dark:bg-gray-800/50;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-700 rounded-full;
-  @apply hover:bg-gray-400 dark:hover:bg-gray-600;
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  @apply hover:bg-primary-400 dark:hover:bg-primary-600;
   transition: background-color 0.3s ease;
 }

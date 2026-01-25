@@ -1,4 +1,5 @@
 // Status formatting utilities
+import { FileText, MessageCircle, Code, CheckCircle, XCircle, LucideIcon } from "lucide-react";
 
 export const projectStatusLabels: Record<string, string> = {
   APPLICATION_IN_PROGRESS: "Application in progress",
@@ -8,12 +9,20 @@ export const projectStatusLabels: Record<string, string> = {
   FAILED: "Failed",
 };
 
+export const projectStatusIcons: Record<string, LucideIcon> = {
+  APPLICATION_IN_PROGRESS: FileText,
+  DISCUSSION_IN_PROGRESS: MessageCircle,
+  DEVELOPMENT_IN_PROGRESS: Code,
+  SUCCEEDED: CheckCircle,
+  FAILED: XCircle,
+};
+
 export const projectStatusColors: Record<string, string> = {
-  APPLICATION_IN_PROGRESS: "bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600",
-  DISCUSSION_IN_PROGRESS: "bg-gray-200 text-gray-900 border-gray-400 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-500",
-  DEVELOPMENT_IN_PROGRESS: "bg-gray-300 text-gray-900 border-gray-500 dark:bg-gray-600 dark:text-white dark:border-gray-400",
-  SUCCEEDED: "bg-black text-white border-gray-900 dark:bg-white dark:text-black dark:border-gray-200",
-  FAILED: "bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700",
+  APPLICATION_IN_PROGRESS: "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300",
+  DISCUSSION_IN_PROGRESS: "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300",
+  DEVELOPMENT_IN_PROGRESS: "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300",
+  SUCCEEDED: "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300",
+  FAILED: "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300",
 };
 
 export const feasibilityStatusLabels: Record<string, string> = {
@@ -23,9 +32,9 @@ export const feasibilityStatusLabels: Record<string, string> = {
 };
 
 export const feasibilityStatusColors: Record<string, string> = {
-  PENDING: "bg-gray-200 text-gray-900 border-gray-400 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-500",
-  APPROVED: "bg-black text-white border-gray-900 dark:bg-white dark:text-black dark:border-gray-200",
-  REJECTED: "bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700",
+  PENDING: "bg-warning-100 text-warning-800 border-warning-300 dark:bg-warning-900/30 dark:text-warning-300 dark:border-warning-700",
+  APPROVED: "bg-success-500 text-white border-success-600 dark:bg-success-600 dark:text-white dark:border-success-500",
+  REJECTED: "bg-error-50 text-error-700 border-error-200 dark:bg-error-900/30 dark:text-error-300 dark:border-error-700",
 };
 
 export function formatProjectStatus(status: string): string {

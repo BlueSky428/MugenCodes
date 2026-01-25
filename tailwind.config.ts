@@ -9,43 +9,82 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#000000",
+        // Semantic colors
+        ink: "#0f172a",
         surface: "#ffffff",
-        accent: "#000000",
-        accentSoft: "#f5f5f5",
-        night: "#000000",
-        nightSoft: "#1a1a1a",
-        // Enterprise grayscale palette
+        accent: "#06b6d4",
+        accentSoft: "#e0f2fe",
+        night: "#0f172a",
+        nightSoft: "#1e293b",
+        // Surface colors
         panel: "#ffffff",
-        panelSoft: "#fafafa",
-        border: "rgba(0, 0, 0, 0.12)",
-        borderSoft: "rgba(0, 0, 0, 0.06)",
-        // Modern gradient colors
+        panelSoft: "#f8fafc",
+        border: "rgba(15, 23, 42, 0.08)",
+        borderSoft: "rgba(15, 23, 42, 0.04)",
+        // Refined primary palette (Cyan/Teal)
         primary: {
-          50: "#f0f9ff",
-          100: "#e0f2fe",
-          200: "#bae6fd",
-          300: "#7dd3fc",
-          400: "#38bdf8",
-          500: "#0ea5e9",
-          600: "#0284c7",
-          700: "#0369a1",
-          800: "#075985",
-          900: "#0c4a6e",
-          950: "#082f49"
+          50: "#ecfeff",
+          100: "#cffafe",
+          200: "#a5f3fc",
+          300: "#67e8f9",
+          400: "#22d3ee",
+          500: "#06b6d4",
+          600: "#0891b2",
+          700: "#0e7490",
+          800: "#155e75",
+          900: "#164e63",
+          950: "#083344"
         },
+        // Refined neutral grays
         gray: {
-          50: "#fafafa",
-          100: "#f5f5f5",
-          200: "#e5e5e5",
-          300: "#d4d4d4",
-          400: "#a3a3a3",
-          500: "#737373",
-          600: "#525252",
-          700: "#404040",
-          800: "#262626",
-          900: "#171717",
-          950: "#0a0a0a"
+          50: "#f8fafc",
+          100: "#f1f5f9",
+          200: "#e2e8f0",
+          300: "#cbd5e1",
+          400: "#94a3b8",
+          500: "#64748b",
+          600: "#475569",
+          700: "#334155",
+          800: "#1e293b",
+          900: "#0f172a",
+          950: "#020617"
+        },
+        // Semantic status colors
+        success: {
+          50: "#f0fdf4",
+          100: "#dcfce7",
+          200: "#bbf7d0",
+          300: "#86efac",
+          400: "#4ade80",
+          500: "#22c55e",
+          600: "#16a34a",
+          700: "#15803d",
+          800: "#166534",
+          900: "#14532d"
+        },
+        warning: {
+          50: "#fffbeb",
+          100: "#fef3c7",
+          200: "#fde68a",
+          300: "#fcd34d",
+          400: "#fbbf24",
+          500: "#f59e0b",
+          600: "#d97706",
+          700: "#b45309",
+          800: "#92400e",
+          900: "#78350f"
+        },
+        error: {
+          50: "#fef2f2",
+          100: "#fee2e2",
+          200: "#fecaca",
+          300: "#fca5a5",
+          400: "#f87171",
+          500: "#ef4444",
+          600: "#dc2626",
+          700: "#b91c1c",
+          800: "#991b1b",
+          900: "#7f1d1d"
         }
       },
       boxShadow: {
@@ -53,8 +92,11 @@ const config: Config = {
         card: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
         "card-hover": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
         ring: "0 0 0 3px rgba(0, 0, 0, 0.1)",
-        glow: "0 0 20px rgba(14, 165, 233, 0.3)",
-        "glow-lg": "0 0 40px rgba(14, 165, 233, 0.4)"
+        glow: "0 0 20px rgba(6, 182, 212, 0.3)",
+        "glow-lg": "0 0 40px rgba(6, 182, 212, 0.4)",
+        "glow-success": "0 0 20px rgba(34, 197, 94, 0.3)",
+        "glow-warning": "0 0 20px rgba(245, 158, 11, 0.3)",
+        "glow-error": "0 0 20px rgba(239, 68, 68, 0.3)"
       },
       borderRadius: {
         xl: "0.75rem",
@@ -66,8 +108,12 @@ const config: Config = {
           "linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "gradient-primary": "linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)",
-        "gradient-dark": "linear-gradient(135deg, #1a1a1a 0%, #000000 100%)"
+        "gradient-primary": "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)",
+        "gradient-primary-light": "linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%)",
+        "gradient-success": "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
+        "gradient-warning": "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+        "gradient-error": "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+        "gradient-dark": "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)"
       },
       backgroundSize: {
         "grid-subtle": "24px 24px"

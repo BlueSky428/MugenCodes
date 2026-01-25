@@ -324,23 +324,29 @@ export default function AdminPage() {
           ) : projects.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project) => (
-                <div key={project.id} className="relative">
+                <div key={project.id} className="relative group">
                   <ProjectCard project={project} />
-                  {/* Quick Action Badges */}
-                  <div className="absolute top-4 right-4 flex flex-col gap-2">
+                  {/* Quick Action Buttons - Positioned below the card content */}
+                  <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
                     {project.feasibilityStatus === "PENDING" && (
                       <Link
                         href={`/projects/${project.id}`}
-                        className="inline-flex items-center rounded-md bg-black px-3 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100"
+                        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-glow hover:scale-105 active:scale-95"
                       >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
                         Review Feasibility
                       </Link>
                     )}
                     {project.negotiationPending === "TEAM" && (
                       <Link
                         href={`/projects/${project.id}/plan`}
-                        className="inline-flex items-center rounded-md bg-black px-3 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100"
+                        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-yellow-500 to-yellow-600 px-4 py-2 text-xs font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-glow hover:scale-105 active:scale-95"
                       >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
                         Respond to Negotiation
                       </Link>
                     )}
@@ -350,8 +356,11 @@ export default function AdminPage() {
                       !project.negotiationPending && (
                         <Link
                           href={`/projects/${project.id}/plan`}
-                          className="inline-flex items-center rounded-md bg-black px-3 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100"
+                          className="inline-flex items-center gap-2 rounded-xl bg-gradient-primary px-4 py-2 text-xs font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-glow hover:scale-105 active:scale-95"
                         >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                          </svg>
                           Create Plan
                         </Link>
                       )}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { Section } from "@/components/Section";
+import { validateEmail, validatePassword } from "@/lib/validation";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -14,20 +15,34 @@ export default function SignUpPage() {
     password: "",
     confirmPassword: "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setErrors({});
 
+    // Validate all fields
+    const validationErrors: Record<string, string> = {};
+    
+    if (!formData.name || formData.name.trim().length < 2) {
+      validationErrors.name = "Name must be at least 2 characters";
+    }
+    
+    const emailError = validateEmail(formData.email);
+    if (emailError) validationErrors.email = emailError;
+    
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) validationErrors.password = passwordError;
+    
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
+      validationErrors.confirmPassword = "Passwords do not match";
     }
 
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters");
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
@@ -79,55 +94,99 @@ export default function SignUpPage() {
             )}
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-ink dark:text-white">
-                Name
+              <label htmlFor="signup-name" className="text-sm font-medium text-ink dark:text-white">
+                Name <span className="text-red-500">*</span>
               </label>
               <input
+                id="signup-name"
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, name: e.target.value });
+                  if (errors.name) setErrors({ ...errors, name: "" });
+                }}
                 required
-                className="input"
+                aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? "name-error" : undefined}
+                className={`input ${errors.name ? "border-red-500 focus:ring-red-500" : ""}`}
               />
+              {errors.name && (
+                <p id="name-error" className="text-sm text-red-600 dark:text-red-400" role="alert">
+                  {errors.name}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-ink dark:text-white">
-                Email
+              <label htmlFor="signup-email" className="text-sm font-medium text-ink dark:text-white">
+                Email <span className="text-red-500">*</span>
               </label>
               <input
+                id="signup-email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, email: e.target.value });
+                  if (errors.email) setErrors({ ...errors, email: "" });
+                }}
                 required
-                className="input"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
+                className={`input ${errors.email ? "border-red-500 focus:ring-red-500" : ""}`}
               />
+              {errors.email && (
+                <p id="email-error" className="text-sm text-red-600 dark:text-red-400" role="alert">
+                  {errors.email}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-ink dark:text-white">
-                Password
+              <label htmlFor="signup-password" className="text-sm font-medium text-ink dark:text-white">
+                Password <span className="text-red-500">*</span>
               </label>
               <input
+                id="signup-password"
                 type="password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, password: e.target.value });
+                  if (errors.password) setErrors({ ...errors, password: "" });
+                }}
                 required
-                className="input"
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? "password-error" : undefined}
+                className={`input ${errors.password ? "border-red-500 focus:ring-red-500" : ""}`}
               />
+              {errors.password && (
+                <p id="password-error" className="text-sm text-red-600 dark:text-red-400" role="alert">
+                  {errors.password}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-ink dark:text-white">
-                Confirm Password
+              <label htmlFor="signup-confirm-password" className="text-sm font-medium text-ink dark:text-white">
+                Confirm Password <span className="text-red-500">*</span>
               </label>
               <input
+                id="signup-confirm-password"
                 type="password"
                 value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, confirmPassword: e.target.value });
+                  if (errors.confirmPassword) setErrors({ ...errors, confirmPassword: "" });
+                }}
                 required
-                className="input"
+                aria-invalid={!!errors.confirmPassword}
+                aria-describedby={errors.confirmPassword ? "confirm-password-error" : undefined}
+                className={`input ${errors.confirmPassword ? "border-red-500 focus:ring-red-500" : ""}`}
               />
+              {errors.confirmPassword && (
+                <p id="confirm-password-error" className="text-sm text-red-600 dark:text-red-400" role="alert">
+                  {errors.confirmPassword}
+                </p>
+              )}
             </div>
 
             <button

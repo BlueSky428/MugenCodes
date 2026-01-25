@@ -34,8 +34,23 @@ export async function POST(
       );
     }
 
-    // Only allow cancellation during DEVELOPMENT_IN_PROGRESS status
-    if (project.status !== "DEVELOPMENT_IN_PROGRESS") {
+    // Clients can cancel in APPLICATION_IN_PROGRESS, DISCUSSION_IN_PROGRESS, or DEVELOPMENT_IN_PROGRESS
+    // Team can only cancel during DEVELOPMENT_IN_PROGRESS
+    const allowedStatusesForClient = [
+      "APPLICATION_IN_PROGRESS",
+      "DISCUSSION_IN_PROGRESS",
+      "DEVELOPMENT_IN_PROGRESS"
+    ];
+    const allowedStatusesForTeam = ["DEVELOPMENT_IN_PROGRESS"];
+
+    if (isClient && !allowedStatusesForClient.includes(project.status)) {
+      return NextResponse.json(
+        { error: "Project can only be cancelled during application, discussion, or development phases" },
+        { status: 400 }
+      );
+    }
+
+    if (isTeam && !allowedStatusesForTeam.includes(project.status)) {
       return NextResponse.json(
         { error: "Project can only be cancelled during development" },
         { status: 400 }
@@ -52,6 +67,27 @@ export async function POST(
       );
     }
 
+    // If project is in APPLICATION_IN_PROGRESS and has no payments, delete it instead of marking as failed
+    const shouldDelete = project.status === "APPLICATION_IN_PROGRESS" && project.totalPaid === 0;
+
+    if (shouldDelete) {
+      // Delete the project (cascade will handle related records)
+      await prisma.project.delete({
+        where: { id: params.id },
+      });
+
+      // Broadcast deletion via WebSocket
+      await broadcastProjectChange(params.id, "deleted", {
+        projectId: params.id,
+      });
+
+      return NextResponse.json({ 
+        deleted: true,
+        message: "Project has been deleted" 
+      });
+    }
+
+    // For projects with payments or in other stages, mark as failed
     // Determine responsibility based on who cancelled
     let finalResponsibility = responsibility;
     if (!finalResponsibility) {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { UnreadMessageBadge } from "@/components/UnreadMessageBadge";
-import { formatProjectStatus, projectStatusColors } from "@/lib/status";
+import { formatProjectStatus, projectStatusColors, projectStatusIcons } from "@/lib/status";
 
 type Project = {
   id: string;
@@ -22,30 +22,53 @@ type Project = {
 
 type ProjectCardProps = {
   project: Project;
+  onCancel?: (projectId: string) => void;
+  canCancel?: boolean;
 };
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, onCancel, canCancel }: ProjectCardProps) {
   const paidMilestones = project.milestones?.filter((m) => m.status === "PAID").length || 0;
   const totalMilestones = project.milestones?.length || 0;
+  const StatusIcon = projectStatusIcons[project.status] || projectStatusIcons.APPLICATION_IN_PROGRESS;
 
   return (
-    <Link href={`/projects/${project.id}`} className="block group">
-      <div className="card card-dark card-hover cursor-pointer p-6 h-full animate-fade-in-up transition-all duration-300 group-hover:border-primary-200 dark:group-hover:border-primary-800">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-2 flex-1 min-w-0">
-            <h3 className="text-xl font-semibold text-ink dark:text-white truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
-              {project.name}
-            </h3>
-            <UnreadMessageBadge projectId={project.id} />
+    <div className="relative group">
+      <Link href={`/projects/${project.id}`} className="block">
+        <div className="card card-dark card-hover cursor-pointer p-6 h-full animate-fade-in-up transition-all duration-300 group-hover:border-primary-200 dark:group-hover:border-primary-800">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <h3 className="text-xl font-semibold text-ink dark:text-white truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+                {project.name}
+              </h3>
+              <UnreadMessageBadge projectId={project.id} />
+            </div>
+            <div className="flex items-center gap-2">
+              {canCancel && onCancel && (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onCancel(project.id);
+                  }}
+                  className="p-2 rounded-lg text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 transition-colors"
+                  title="Cancel Project"
+                  aria-label="Cancel Project"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+              <div
+                className={`w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ${
+                  projectStatusColors[project.status] || projectStatusColors.APPLICATION_IN_PROGRESS
+                }`}
+                title={formatProjectStatus(project.status)}
+              >
+                <StatusIcon className="w-6 h-6" />
+              </div>
+            </div>
           </div>
-          <span
-            className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold transition-all duration-300 group-hover:scale-105 ${
-              projectStatusColors[project.status] || projectStatusColors.APPLICATION_IN_PROGRESS
-            }`}
-          >
-            {formatProjectStatus(project.status)}
-          </span>
-        </div>
 
         <div className="space-y-3 text-sm muted">
           <div className="flex items-center gap-2">
@@ -93,7 +116,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
           )}
         </div>
-      </div>
-    </Link>
+        </div>
+      </Link>
+    </div>
   );
 }

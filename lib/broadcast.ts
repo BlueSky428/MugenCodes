@@ -7,7 +7,7 @@
  * 2. All connected clients (for list pages and dashboards)
  */
 
-export async function broadcastProjectChange(projectId: string, changeType: "status" | "update" | "milestone" | "payment", data?: any) {
+export async function broadcastProjectChange(projectId: string, changeType: "status" | "update" | "milestone" | "payment" | "deleted", data?: any) {
   try {
     // IMPORTANT: route handlers must use the same singleton that `server.js` initializes.
     // That singleton lives in CommonJS `lib/socket.js`.
@@ -26,6 +26,21 @@ export async function broadcastProjectChange(projectId: string, changeType: "sta
       
       // Also broadcast to all connected clients (for list pages and dashboards)
       io.emit("project-status-updated", payload);
+    } else if (changeType === "deleted") {
+      // Broadcast project deletion
+      const payload = {
+        projectId: data?.projectId || projectId,
+        deleted: true,
+      };
+      
+      // Broadcast to project-specific room (for detail pages)
+      io.to(`project:${projectId}`).emit("project-deleted", payload);
+      
+      // Also broadcast to all connected clients (for list pages and dashboards)
+      io.emit("project-deleted", payload);
+      
+      // Also emit refresh for list pages
+      io.emit("refresh-project", projectId);
     } else {
       // Broadcast general refresh
       // To project-specific room

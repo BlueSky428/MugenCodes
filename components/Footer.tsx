@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/site";
 
 export const Footer = () => {
   return (
-    <footer className="border-t border-gray-200/80 bg-white/80 backdrop-blur-xl dark:border-gray-800/80 dark:bg-black/80 animate-fade-in-up">
+    <footer className="border-t border-gray-200/80 bg-white/90 backdrop-blur-xl dark:border-gray-700/50 dark:bg-gray-800/90 animate-fade-in-up">
       <div className="container-page py-12">
         <div className="grid gap-8 md:grid-cols-3">
           <div className="space-y-4 animate-fade-in">

@@ -52,7 +52,7 @@ export default function SignInClient() {
       if (result?.error) {
         setError("Invalid password. Please check your password and try again.");
       } else {
-        router.push("/projects/new");
+        router.push("/projects");
         router.refresh();
       }
     } catch {
