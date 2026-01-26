@@ -20,8 +20,8 @@ type Project = {
   negotiationPending?: string | null;
   developmentPlan?: string | null;
   client: {
+    id: string;
     name: string;
-    email: string;
   };
   milestones?: Array<{
     id: string;

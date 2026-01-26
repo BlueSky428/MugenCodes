@@ -104,7 +104,7 @@ export default function NewProjectPage() {
   return (
     <>
       {/* Success Modal */}
-      {showSuccessModal && session?.user?.email && (
+      {showSuccessModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
           <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl animate-fade-in-up border border-gray-200 dark:border-gray-700">
             <div className="p-6">
@@ -127,7 +127,7 @@ export default function NewProjectPage() {
                 Project Submitted Successfully
               </h3>
               <p className="text-center text-ink/70 dark:text-white/70 mb-6 leading-relaxed">
-                Thank you for submitting your project! We&apos;ve received your request and will carefully evaluate its development potential. We&apos;ll notify you at <span className="font-medium text-ink dark:text-white">{session.user.email}</span> as soon as we have an update.
+                Thank you for submitting your project! We&apos;ve received your request and will carefully evaluate its development potential. We&apos;ll notify you as soon as we have an update.
               </p>
               <button
                 onClick={handleModalOk}

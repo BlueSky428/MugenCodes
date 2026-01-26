@@ -119,7 +119,6 @@ export async function POST(
               select: {
                 id: true,
                 name: true,
-                email: true,
               },
             },
             milestones: {
@@ -158,7 +157,6 @@ export async function POST(
               select: {
                 id: true,
                 name: true,
-                email: true,
               },
             },
           },
@@ -246,7 +244,6 @@ export async function POST(
               select: {
                 id: true,
                 name: true,
-                email: true,
               },
             },
             milestones: {
@@ -343,13 +340,12 @@ export async function POST(
         negotiationRequestedAt: null,
       },
       include: {
-        client: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
+            client: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
         milestones: {
           orderBy: {
             dueDate: "asc",

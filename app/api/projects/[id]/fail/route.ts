@@ -108,7 +108,6 @@ export async function POST(
           select: {
             id: true,
             name: true,
-            email: true,
           },
         },
         milestones: {

@@ -11,7 +11,6 @@ type Message = {
   sender: {
     id: string;
     name: string;
-    email: string;
     role: string;
   };
   read: boolean;

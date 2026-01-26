@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { Section } from "@/components/Section";
-import { validateEmail, validatePassword } from "@/lib/validation";
+import { validatePassword } from "@/lib/validation";
 
 export default function SignUpPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
+    userId: "",
     name: "",
-    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -30,9 +30,6 @@ export default function SignUpPage() {
     if (!formData.name || formData.name.trim().length < 2) {
       validationErrors.name = "Name must be at least 2 characters";
     }
-    
-    const emailError = validateEmail(formData.email);
-    if (emailError) validationErrors.email = emailError;
     
     const passwordError = validatePassword(formData.password);
     if (passwordError) validationErrors.password = passwordError;
@@ -53,8 +50,8 @@ export default function SignUpPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          userId: formData.userId.trim(),
           name: formData.name,
-          email: formData.email,
           password: formData.password,
         }),
       });
@@ -118,27 +115,31 @@ export default function SignUpPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="signup-email" className="text-sm font-medium text-ink dark:text-white">
-                Email <span className="text-red-500">*</span>
+              <label htmlFor="signup-user-id" className="text-sm font-medium text-ink dark:text-white">
+                User ID <span className="text-red-500">*</span>
               </label>
               <input
-                id="signup-email"
-                type="email"
-                value={formData.email}
+                id="signup-user-id"
+                type="text"
+                value={formData.userId}
                 onChange={(e) => {
-                  setFormData({ ...formData, email: e.target.value });
-                  if (errors.email) setErrors({ ...errors, email: "" });
+                  setFormData({ ...formData, userId: e.target.value });
+                  if (errors.userId) setErrors({ ...errors, userId: "" });
                 }}
                 required
-                aria-invalid={!!errors.email}
-                aria-describedby={errors.email ? "email-error" : undefined}
-                className={`input ${errors.email ? "border-red-500 focus:ring-red-500" : ""}`}
+                aria-invalid={!!errors.userId}
+                aria-describedby={errors.userId ? "user-id-error" : undefined}
+                className={`input ${errors.userId ? "border-red-500 focus:ring-red-500" : ""}`}
+                placeholder="Choose a unique User ID"
               />
-              {errors.email && (
-                <p id="email-error" className="text-sm text-red-600 dark:text-red-400" role="alert">
-                  {errors.email}
+              {errors.userId && (
+                <p id="user-id-error" className="text-sm text-red-600 dark:text-red-400" role="alert">
+                  {errors.userId}
                 </p>
               )}
+              <p className="text-xs text-ink/60 dark:text-white/60">
+                This will be your login identifier. Use letters, numbers, underscores, or hyphens.
+              </p>
             </div>
 
             <div className="space-y-2">

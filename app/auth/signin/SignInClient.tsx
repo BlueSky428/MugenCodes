@@ -10,7 +10,7 @@ import { Section } from "@/components/Section";
 export default function SignInClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,24 +27,24 @@ export default function SignInClient() {
     setLoading(true);
 
     try {
-      // First, check if email exists
-      const emailCheckResponse = await fetch("/api/auth/check-email", {
+      // First, check if user ID exists
+      const userIdCheckResponse = await fetch("/api/auth/check-user-id", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ userId }),
       });
 
-      const emailCheck = await emailCheckResponse.json();
+      const userIdCheck = await userIdCheckResponse.json();
 
-      if (!emailCheck.exists) {
-        setError("Invalid email address. Please check your email and try again.");
+      if (!userIdCheck.exists) {
+        setError("Invalid User ID. Please check your User ID and try again.");
         setLoading(false);
         return;
       }
 
-      // If email exists, try to sign in
+      // If user ID exists, try to sign in
       const result = await signIn("credentials", {
-        email,
+        userId,
         password,
         redirect: false,
       });
@@ -67,7 +67,7 @@ export default function SignInClient() {
       <div className="mx-auto max-w-md">
         <div className="mb-6 text-center">
           <p className="muted">
-            Welcome back. Use your email and password to access your projects.
+            Welcome back. Use your User ID and password to access your projects.
           </p>
         </div>
         <form
@@ -82,14 +82,15 @@ export default function SignInClient() {
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-ink dark:text-white">
-              Email
+              User ID
             </label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
               required
               className="input"
+              placeholder="Enter your User ID"
             />
           </div>
 

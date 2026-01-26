@@ -8,11 +8,25 @@ export async function POST(request: Request) {
   const requestId = crypto.randomUUID();
   try {
     const body = await request.json();
-    const { name, email, password } = body;
+    const { userId, name, password } = body;
 
-    if (!name || !email || !password) {
+    if (!userId || !name || !password) {
       return NextResponse.json(
-        { error: "Name, email, and password are required" },
+        { error: "User ID, name, and password are required" },
+        { status: 400 }
+      );
+    }
+
+    if (userId.trim().length < 3) {
+      return NextResponse.json(
+        { error: "User ID must be at least 3 characters" },
+        { status: 400 }
+      );
+    }
+
+    if (!/^[a-zA-Z0-9_-]+$/.test(userId.trim())) {
+      return NextResponse.json(
+        { error: "User ID can only contain letters, numbers, underscores, and hyphens" },
         { status: 400 }
       );
     }
@@ -24,23 +38,35 @@ export async function POST(request: Request) {
       );
     }
 
+    if (name.trim().length < 2) {
+      return NextResponse.json(
+        { error: "Name must be at least 2 characters" },
+        { status: 400 }
+      );
+    }
+
+    // Check if User ID already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { id: userId.trim() },
     });
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "User with this email already exists" },
+        { error: "This User ID is already taken. Please choose another one." },
         { status: 400 }
       );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Generate a placeholder email for database constraint
+    const placeholderEmail = `user_${userId.trim()}@placeholder.local`;
+
     const user = await prisma.user.create({
       data: {
-        name,
-        email,
+        id: userId.trim(), // Use the user-provided ID
+        name: name.trim(),
+        email: placeholderEmail, // Placeholder email for database constraint
         password: hashedPassword,
         role: "CLIENT",
       },
@@ -50,7 +76,6 @@ export async function POST(request: Request) {
       success: true,
       user: {
         id: user.id,
-        email: user.email,
         name: user.name,
       },
     });

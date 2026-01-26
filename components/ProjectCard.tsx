@@ -11,8 +11,8 @@ type Project = {
   deadline: string;
   createdAt: string;
   client?: {
+    id: string;
     name: string;
-    email: string;
   };
   milestones?: Array<{
     id: string;

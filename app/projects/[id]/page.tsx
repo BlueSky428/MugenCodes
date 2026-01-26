@@ -26,8 +26,8 @@ type Project = {
   negotiationMessage?: string | null;
   negotiationRequestedAt?: string | null;
   client: {
+    id: string;
     name: string;
-    email: string;
   };
   milestones: Array<{
     id: string;
@@ -396,7 +396,7 @@ export default function ProjectDetailPage() {
                   </p>
                   {isAdmin && (
                     <p>
-                      <span className="font-medium">Client:</span> {project.client.name} ({project.client.email})
+                      <span className="font-medium">Client:</span> {project.client.name} (ID: {project.client.id})
                     </p>
                   )}
                 </div>

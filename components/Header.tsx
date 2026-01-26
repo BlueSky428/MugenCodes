@@ -78,7 +78,7 @@ export const Header = () => {
               <>
                 <div className="text-right leading-tight animate-fade-in">
                   <div className="text-sm font-semibold text-black dark:text-white">
-                    {session.user.name || session.user.email}
+                    {session.user.name || session.user.id}
                   </div>
                   <div className="text-xs text-gray-600 dark:text-gray-400 uppercase">{session.user.role}</div>
                 </div>
@@ -154,7 +154,7 @@ export const Header = () => {
                 <>
                   <div className="px-4 py-2 mb-2">
                     <div className="text-sm font-semibold text-black dark:text-white">
-                      {session.user.name || session.user.email}
+                      {session.user.name || session.user.id}
                     </div>
                     <div className="text-xs text-gray-600 dark:text-gray-400 uppercase">{session.user.role}</div>
                   </div>
