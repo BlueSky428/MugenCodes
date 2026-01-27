@@ -1,13 +1,9 @@
 "use client";
 
-import { useState, useEffect, Suspense, useRef } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Section } from "@/components/Section";
 import Link from "next/link";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 type Project = {
   id: string;
@@ -421,9 +417,6 @@ const categories = ["All", "AI", "Blockchain", "Full-stack"];
 function PortfolioContent() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
-  const portfolioRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  const projectsGridRef = useRef<HTMLDivElement>(null);
   
   // Map URL parameter to valid category, default to "All"
   const getValidCategory = (param: string | null): string => {
@@ -463,157 +456,10 @@ function PortfolioContent() {
     ? projects 
     : projects.filter(project => project.category === selectedCategory);
 
-  // Initialize GSAP smooth scroll and animations
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Enhanced smooth scrolling for the entire page
-    let scrollTween: gsap.core.Tween | null = null;
-    let isScrolling = false;
-    let currentScroll = 0;
-
-    const handleWheel = (e: WheelEvent) => {
-      if (isScrolling) {
-        e.preventDefault();
-        return;
-      }
-
-      const delta = e.deltaY;
-      currentScroll = window.scrollY || document.documentElement.scrollTop;
-      const targetScroll = Math.max(0, Math.min(
-        currentScroll + delta * 0.5,
-        document.documentElement.scrollHeight - window.innerHeight
-      ));
-
-      if (scrollTween) scrollTween.kill();
-
-      isScrolling = true;
-      scrollTween = gsap.to(document.documentElement, {
-        duration: 0.6,
-        scrollTop: targetScroll,
-        ease: "power2.out",
-        onComplete: () => {
-          isScrolling = false;
-        },
-      });
-
-      e.preventDefault();
-    };
-
-    // Only enable smooth scroll on desktop (mouse wheel)
-    if (window.innerWidth > 768) {
-      window.addEventListener("wheel", handleWheel, { passive: false });
-    }
-
-    // Hero section animations
-    if (heroRef.current) {
-      const heroElements = heroRef.current.querySelectorAll(".animate-fade-in-up, .animate-fade-in-down");
-      gsap.fromTo(
-        heroElements,
-        {
-          opacity: 0,
-          y: 30,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }
-
-    // Project cards scroll animations
-    if (projectsGridRef.current) {
-      const projectCards = projectsGridRef.current.querySelectorAll(".project-card");
-      
-      projectCards.forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          {
-            opacity: 0,
-            y: 50,
-            scale: 0.95,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: index * 0.1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card as Element,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-
-        // Hover animation enhancement
-        const cardElement = card as HTMLElement;
-        cardElement.addEventListener("mouseenter", () => {
-          gsap.to(card, {
-            scale: 1.02,
-            y: -5,
-            duration: 0.3,
-            ease: "power2.out",
-          });
-        });
-
-        cardElement.addEventListener("mouseleave", () => {
-          gsap.to(card, {
-            scale: 1,
-            y: 0,
-            duration: 0.3,
-            ease: "power2.out",
-          });
-        });
-      });
-    }
-
-    // Smooth scroll for anchor links
-    const handleSmoothScroll = (e: Event) => {
-      const target = e.target as HTMLElement;
-      const link = target.closest("a[href^='#']");
-      if (link) {
-        e.preventDefault();
-        const href = link.getAttribute("href");
-        if (href && href.startsWith("#")) {
-          const targetElement = document.querySelector(href);
-          if (targetElement) {
-            const targetPosition = (targetElement as HTMLElement).offsetTop - 80;
-            gsap.to(document.documentElement, {
-              duration: 1,
-              scrollTop: targetPosition,
-              ease: "power2.inOut",
-            });
-          }
-        }
-      }
-    };
-
-    document.addEventListener("click", handleSmoothScroll);
-
-    // Cleanup
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      document.removeEventListener("click", handleSmoothScroll);
-      if (scrollTween) scrollTween.kill();
-      window.removeEventListener("wheel", handleWheel);
-    };
-  }, [filteredProjects, selectedCategory]);
-
   return (
-    <div ref={portfolioRef}>
+    <>
       {/* Hero Section */}
-      <section ref={heroRef} className="bg-hero relative overflow-hidden">
+      <section className="bg-hero relative overflow-hidden">
         <div aria-hidden className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08] bg-grid" />
         <div className="container-page relative py-20 md:py-28 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
@@ -670,11 +516,12 @@ function PortfolioContent() {
           </div>
 
           {/* Projects Grid */}
-          <div ref={projectsGridRef} className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project, index) => (
               <div
                 key={project.id}
-                className="project-card card card-dark card-hover p-6 h-full flex flex-col group"
+                className="card card-dark card-hover p-6 h-full flex flex-col animate-fade-in-up group"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Category Badge */}
                 <div className="mb-4">
@@ -764,7 +611,7 @@ function PortfolioContent() {
           </div>
         </div>
       </Section>
-    </div>
+    </>
   );
 }
 
