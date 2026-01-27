@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Section } from "@/components/Section";
 import Link from "next/link";
 
@@ -36,22 +36,6 @@ const projects: Project[] = [
   },
   
   // Cryptocurrency Exchanges - Major Platforms
-  {
-    id: "3",
-    name: "Binance",
-    category: "Blockchain",
-    description: "World's leading cryptocurrency exchange platform with comprehensive trading features, spot trading, futures, and extensive coin listings. Serving millions of users globally with advanced security.",
-    liveUrl: "https://www.binance.com/",
-    technologies: ["Blockchain", "Trading Engine", "Security", "Multi-asset"],
-  },
-  {
-    id: "4",
-    name: "Coinbase Pro",
-    category: "Blockchain",
-    description: "Professional cryptocurrency trading platform with advanced charting, order types, and API access. Designed for active traders with low fees and high liquidity.",
-    liveUrl: "https://pro.coinbase.com",
-    technologies: ["Blockchain", "Trading API", "Advanced Trading", "Security"],
-  },
   {
     id: "5",
     name: "Bitfinex",
@@ -143,7 +127,7 @@ const projects: Project[] = [
     technologies: ["AI", "Automation", "Workflow", "SaaS"],
   },
   {
-    id: "2",
+    id: "19",
     name: "Aisera",
     category: "AI",
     description: "AI-powered service experience platform that automates customer service and IT operations with conversational AI.",
@@ -151,7 +135,7 @@ const projects: Project[] = [
     technologies: ["AI", "Customer Service", "Automation", "NLP"],
   },
   {
-    id: "3",
+    id: "20",
     name: "Raia AI",
     category: "AI",
     description: "AI platform providing intelligent solutions for business automation and digital transformation.",
@@ -159,7 +143,7 @@ const projects: Project[] = [
     technologies: ["AI", "Machine Learning", "Automation", "SaaS"],
   },
   {
-    id: "4",
+    id: "21",
     name: "WebAgent.ai",
     category: "AI",
     description: "AI-powered web automation platform that enables intelligent browsing and task automation.",
@@ -167,7 +151,7 @@ const projects: Project[] = [
     technologies: ["AI", "Web Automation", "Browser Automation", "RPA"],
   },
   {
-    id: "5",
+    id: "22",
     name: "Autonomous AI Agents",
     category: "AI",
     description: "Platform for creating and deploying autonomous AI agents for various business applications.",
@@ -175,7 +159,7 @@ const projects: Project[] = [
     technologies: ["AI", "Autonomous Agents", "Machine Learning", "Automation"],
   },
   {
-    id: "6",
+    id: "23",
     name: "Spider Connect",
     category: "Full-stack",
     description: "Connectivity and integration platform for seamless business process automation.",
@@ -183,7 +167,7 @@ const projects: Project[] = [
     technologies: ["Integration", "API", "Automation", "Connectivity"],
   },
   {
-    id: "7",
+    id: "24",
     name: "Anysphere",
     category: "AI",
     description: "AI-powered development platform that enhances coding productivity with intelligent assistance.",
@@ -191,7 +175,7 @@ const projects: Project[] = [
     technologies: ["AI", "Development Tools", "Code Generation", "Productivity"],
   },
   {
-    id: "9",
+    id: "25",
     name: "Copy.ai",
     category: "AI",
     description: "AI-powered copywriting platform that generates marketing copy, content, and creative text for businesses.",
@@ -199,7 +183,7 @@ const projects: Project[] = [
     technologies: ["AI", "Content Generation", "Marketing", "NLP"],
   },
   {
-    id: "10",
+    id: "26",
     name: "Stackpack AI",
     category: "AI",
     description: "AI platform providing intelligent solutions for business operations and automation.",
@@ -207,7 +191,7 @@ const projects: Project[] = [
     technologies: ["AI", "Business Automation", "SaaS", "Machine Learning"],
   },
   {
-    id: "11",
+    id: "27",
     name: "Mpathic AI",
     category: "AI",
     description: "AI-powered platform for empathetic communication and customer engagement solutions.",
@@ -215,7 +199,7 @@ const projects: Project[] = [
     technologies: ["AI", "Communication", "Customer Engagement", "NLP"],
   },
   {
-    id: "12",
+    id: "28",
     name: "Chirpley",
     category: "AI",
     description: "Automated peer-to-peer influencer marketplace focused on nano and micro influencers with AI matching.",
@@ -225,7 +209,7 @@ const projects: Project[] = [
   
   // Travel & Hospitality
   {
-    id: "13",
+    id: "29",
     name: "Dohop",
     category: "Full-stack",
     description: "Flight search and booking platform that helps travelers find the best flight combinations and deals.",
@@ -233,7 +217,7 @@ const projects: Project[] = [
     technologies: ["Travel", "Flight Search", "Booking Engine", "API Integration"],
   },
   {
-    id: "14",
+    id: "30",
     name: "Sonder",
     category: "Full-stack",
     description: "Hospitality platform offering thoughtfully designed, tech-enabled accommodations in prime urban locations.",
@@ -243,7 +227,7 @@ const projects: Project[] = [
   
   // Business & SaaS Platforms
   {
-    id: "15",
+    id: "31",
     name: "Weglot",
     category: "Full-stack",
     description: "Website translation and multilingual solution that makes websites available in multiple languages instantly.",
@@ -251,7 +235,7 @@ const projects: Project[] = [
     technologies: ["Translation", "Multilingual", "SaaS", "CMS Integration"],
   },
   {
-    id: "16",
+    id: "32",
     name: "Zesty.io",
     category: "Full-stack",
     description: "Headless CMS platform that enables developers to build and manage content across multiple channels.",
@@ -259,7 +243,7 @@ const projects: Project[] = [
     technologies: ["CMS", "Headless", "Content Management", "API"],
   },
   {
-    id: "17",
+    id: "33",
     name: "SeaTable",
     category: "Full-stack",
     description: "Collaborative database platform that combines spreadsheet simplicity with database power for team collaboration.",
@@ -267,7 +251,7 @@ const projects: Project[] = [
     technologies: ["Database", "Collaboration", "Spreadsheet", "Team Tools"],
   },
   {
-    id: "18",
+    id: "34",
     name: "StackHawk",
     category: "Full-stack",
     description: "Application security testing platform that helps developers find and fix security vulnerabilities in their code.",
@@ -275,7 +259,7 @@ const projects: Project[] = [
     technologies: ["Security", "DevSecOps", "Testing", "CI/CD"],
   },
   {
-    id: "19",
+    id: "35",
     name: "Pitch",
     category: "Full-stack",
     description: "Collaborative presentation software that helps teams create beautiful, interactive presentations together.",
@@ -283,7 +267,7 @@ const projects: Project[] = [
     technologies: ["Presentations", "Collaboration", "Design", "Real-time"],
   },
   {
-    id: "20",
+    id: "36",
     name: "Hopin",
     category: "Full-stack",
     description: "Virtual events platform that enables organizations to host engaging online events, conferences, and webinars.",
@@ -291,7 +275,7 @@ const projects: Project[] = [
     technologies: ["Virtual Events", "Video Conferencing", "Event Management", "Live Streaming"],
   },
   {
-    id: "21",
+    id: "37",
     name: "Fieldwire",
     category: "Full-stack",
     description: "Construction management software that helps construction teams collaborate, track progress, and manage projects.",
@@ -299,7 +283,7 @@ const projects: Project[] = [
     technologies: ["Construction", "Project Management", "Mobile App", "Collaboration"],
   },
   {
-    id: "22",
+    id: "38",
     name: "FeatureSpace",
     category: "AI",
     description: "Fraud prevention and detection platform using machine learning to protect businesses from financial crime.",
@@ -307,7 +291,7 @@ const projects: Project[] = [
     technologies: ["Fraud Detection", "Machine Learning", "Financial Security", "AI"],
   },
   {
-    id: "23",
+    id: "39",
     name: "Pivot",
     category: "AI",
     description: "Digital insurance marketplace and AI solutions platform enabling agents to sell and manage insurance products.",
@@ -317,7 +301,7 @@ const projects: Project[] = [
   
   // Creative & Design Studios
   {
-    id: "24",
+    id: "40",
     name: "Lusion",
     category: "Full-stack",
     description: "Digital production studio creating visually captivating designs and interactive experiences for brands.",
@@ -325,7 +309,7 @@ const projects: Project[] = [
     technologies: ["Design", "3D", "Interactive", "Digital Production"],
   },
   {
-    id: "25",
+    id: "41",
     name: "Flatstudio",
     category: "Full-stack",
     description: "Creative digital agency developing complex interface systems for Web, Mobile & AR applications.",
@@ -333,7 +317,7 @@ const projects: Project[] = [
     technologies: ["Design", "Interface Design", "Mobile", "AR"],
   },
   {
-    id: "26",
+    id: "42",
     name: "Blend4Web",
     category: "Full-stack",
     description: "3D web technology platform enabling interactive 3D applications in browsers without plugins using WebGL.",
@@ -341,7 +325,7 @@ const projects: Project[] = [
     technologies: ["3D", "WebGL", "Interactive", "3D Visualization"],
   },
   {
-    id: "60",
+    id: "43",
     name: "Playground.xyz",
     category: "AI",
     description: "Advertising platform using AI and contextual targeting to deliver personalized, relevant ad experiences.",
@@ -351,7 +335,7 @@ const projects: Project[] = [
   
   // Technology & Hardware
   {
-    id: "27",
+    id: "44",
     name: "Hesai Technology",
     category: "Full-stack",
     description: "Global leader in LiDAR sensor solutions for autonomous vehicles, robotics, and industrial applications.",
@@ -359,7 +343,7 @@ const projects: Project[] = [
     technologies: ["LiDAR", "Autonomous Vehicles", "Robotics", "Hardware"],
   },
   {
-    id: "28",
+    id: "45",
     name: "Evervault",
     category: "Full-stack",
     description: "Data security platform providing encryption and privacy solutions for modern applications.",
@@ -367,7 +351,7 @@ const projects: Project[] = [
     technologies: ["Security", "Encryption", "Privacy", "Data Protection"],
   },
   {
-    id: "29",
+    id: "46",
     name: "Trivver",
     category: "AI",
     description: "AR and VR marketing platform with AI engine for immersive advertising and interactive experiences.",
@@ -375,7 +359,7 @@ const projects: Project[] = [
     technologies: ["AR/VR", "Marketing", "AI", "Immersive Tech"],
   },
   {
-    id: "30",
+    id: "47",
     name: "Pixelynx",
     category: "AI",
     description: "KOR Protocol infrastructure for AI entertainment, enabling creators to build interactive music and IP experiences.",
@@ -385,7 +369,7 @@ const projects: Project[] = [
   
   // E-commerce & Retail
   {
-    id: "31",
+    id: "48",
     name: "Sussex Taps",
     category: "Full-stack",
     description: "Australian tapware manufacturer creating premium, carbon-neutral tapware with sustainable manufacturing practices.",
@@ -395,7 +379,7 @@ const projects: Project[] = [
   
   // Services & Business
   {
-    id: "32",
+    id: "49",
     name: "J&D Landscaping",
     category: "Full-stack",
     description: "Hardscaping and landscaping services platform with 3D rendering, project management, and customer portal.",
@@ -403,7 +387,7 @@ const projects: Project[] = [
     technologies: ["Services", "3D Rendering", "Project Management", "Customer Portal"],
   },
   {
-    id: "33",
+    id: "50",
     name: "Boga Group",
     category: "Full-stack",
     description: "Restaurant group operating multiple brands across Indonesia with digital ordering and loyalty platform.",
@@ -414,35 +398,37 @@ const projects: Project[] = [
 
 const categories = ["All", "AI", "Blockchain", "Full-stack"];
 
+// Map URL parameter to valid category, default to "All"
+const getValidCategory = (param: string | null): string => {
+  if (!param) return "All";
+  const validCategories = ["All", "AI", "Blockchain", "Full-stack"];
+  const lowerParam = param.toLowerCase();
+  
+  // Handle different variations
+  if (lowerParam === "full-stack" || lowerParam === "fullstack" || lowerParam === "full stack") {
+    return "Full-stack";
+  }
+  if (lowerParam === "blockchain") {
+    return "Blockchain";
+  }
+  if (lowerParam === "ai") {
+    return "AI";
+  }
+  
+  // Try exact match with capitalized first letter
+  const normalizedParam = param.charAt(0).toUpperCase() + param.slice(1).toLowerCase();
+  if (validCategories.includes(normalizedParam)) {
+    return normalizedParam;
+  }
+  
+  return "All";
+};
+
 function PortfolioContent() {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
-  
-  // Map URL parameter to valid category, default to "All"
-  const getValidCategory = (param: string | null): string => {
-    if (!param) return "All";
-    const validCategories = ["All", "AI", "Blockchain", "Full-stack"];
-    const lowerParam = param.toLowerCase();
-    
-    // Handle different variations
-    if (lowerParam === "full-stack" || lowerParam === "fullstack" || lowerParam === "full stack") {
-      return "Full-stack";
-    }
-    if (lowerParam === "blockchain") {
-      return "Blockchain";
-    }
-    if (lowerParam === "ai") {
-      return "AI";
-    }
-    
-    // Try exact match with capitalized first letter
-    const normalizedParam = param.charAt(0).toUpperCase() + param.slice(1).toLowerCase();
-    if (validCategories.includes(normalizedParam)) {
-      return normalizedParam;
-    }
-    
-    return "All";
-  };
   
   const [selectedCategory, setSelectedCategory] = useState(() => getValidCategory(categoryParam));
   
@@ -451,6 +437,25 @@ function PortfolioContent() {
     const category = getValidCategory(categoryParam);
     setSelectedCategory(category);
   }, [categoryParam]);
+  
+  // Update URL when category changes
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    
+    // Update URL without page reload
+    const params = new URLSearchParams(searchParams.toString());
+    if (category === "All") {
+      params.delete("category");
+    } else {
+      params.set("category", category.toLowerCase());
+    }
+    
+    const newUrl = params.toString() 
+      ? `${pathname}?${params.toString()}` 
+      : pathname;
+    
+    router.push(newUrl, { scroll: false });
+  };
   
   const filteredProjects = selectedCategory === "All" 
     ? projects 
@@ -488,7 +493,7 @@ function PortfolioContent() {
               {categories.map((category) => (
                 <button
                   key={category}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => handleCategoryChange(category)}
                   className={`btn px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105 ${
                     selectedCategory === category
                       ? "btn-primary"
